@@ -1,0 +1,13 @@
+Description: Fix workspace manager desktop entry categories
+ The desktop entry accidentally prefixes the Categories key twice and misses
+ the final category-list semicolon. Fix it so desktop menu parsers see the
+ application as a settings/desktop-settings entry.
+Author: Reaper <JohnGrimmReaper@disroot.org>
+Forwarded: https://github.com/NsCDE/NsCDE/pull/224
+Last-Update: 2026-06-15
+
+--- a/xdg/applications/nscde-wspgmgr.desktop
++++ b/xdg/applications/nscde-wspgmgr.desktop
+@@ -8 +8 @@
+-Categories=Categories=Settings;DesktopSettings
++Categories=Settings;DesktopSettings;
