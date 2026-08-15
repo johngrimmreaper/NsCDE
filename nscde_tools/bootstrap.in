@@ -844,8 +844,9 @@ do
       setup_nscde initial
    ;;
    h)
-      echo "Usage: ${0##*/} [ -r ] [ -i ] [ -h ]"
+      locale_usage=$(gettext -s 'Usage: %s [ -r ] [ -i ] [ -h ]')
+      printf "$locale_usage\n" "${0##*/}"
+      exit 0
    ;;
    esac
 done
-

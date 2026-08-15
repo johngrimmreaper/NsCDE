@@ -20,7 +20,7 @@ Begin
    If $DeskNo == {} Then
    Begin
       Do {None ("Workspaces and Pages Style Manager Warning")}
-          { f_Notifier "Workspaces and Pages Syle Manager Warning" "Dismiss" "NsCDE/Warning.xpm"}
+          { f_Notifier "Workspaces and Pages Style Manager Warning" "Dismiss" "NsCDE/Warning.xpm"}
           { "Warning: Number of Workspaces and/or number of Pages are not set. Using 4 as default."}
 
       Set $DeskNo = 4
