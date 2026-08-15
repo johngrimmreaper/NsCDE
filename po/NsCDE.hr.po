@@ -837,8 +837,8 @@ msgstr "Greška prilikom stvaranja"
 msgid "Error"
 msgstr "Greška"
 
-msgid "occured while checking config file"
-msgstr "se dogodila prilikom provjeravanja konfiguracijske datoteke"
+msgid " occurred while checking config file"
+msgstr " se dogodila prilikom provjeravanja konfiguracijske datoteke"
 
 msgid "Screenshot Function Error"
 msgstr "Greška Funkcije Slikanja Ekrana"
@@ -1390,4 +1390,3 @@ msgstr "Pomoć za Dijalog Sistemske Akcije"
 
 msgid "System Information Help"
 msgstr "Pomoć za Sistemske Informacije"
-
