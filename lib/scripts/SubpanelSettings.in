@@ -5,7 +5,7 @@
 #
 
 UseGettext {$NSCDE_ROOT/share/locale;NsCDE-Subpanel:$NSCDE_ROOT/share/locale;NsCDE-Subpanels}
-WindowTitle {Subpanel Settings}
+WindowLocaleTitle {Subpanel Settings}
 WindowSize 370 270
 Colorset 22
 
@@ -131,7 +131,7 @@ Widget 1
    Size 320 20
    Type ItemDraw
    Flags NoReliefString Left NoFocus
-   Title {Subpanel Settings: }
+   LocaleTitle {Subpanel Settings: }
    Font "xft:::pixelsize=15"
    Main
       Case message of
@@ -513,4 +513,3 @@ Widget 17
          End
       End
 End
-

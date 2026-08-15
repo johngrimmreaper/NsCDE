@@ -3,13 +3,14 @@
 # Author: Hegel3DReloaded
 # Licence: GPLv3
 #
+# SPDX-FileCopyrightText: 2026 Reaper <JohnGrimmReaper@disroot.org>
 
 msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2021-09-22 09:35+0100\n"
-"PO-Revision-Date: 2026-04-28 00:00+0000\n"
-"Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
+"PO-Revision-Date: 2026-08-15 18:46-0300\n"
+"Last-Translator: Reaper <JohnGrimmReaper@disroot.org>\n"
 "Language-Team: Chinese\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -115,6 +116,9 @@ msgstr "- Ctrl+Q: 工作区 -> 退出"
 
 msgid "Graphical Workspace Manager Error"
 msgstr "图形工作区管理器错误"
+
+msgid "GWM"
+msgstr "GWM"
 
 msgid "Error"
 msgstr "错误"
