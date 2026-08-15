@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-08-15 18:46-0300\n"
+"PO-Revision-Date: 2026-08-15 19:47-0300\n"
 "Last-Translator: Reaper <JohnGrimmReaper@disroot.org>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -33,7 +33,7 @@ msgid " Use this picture for all workspaces"
 msgstr " 对所有工作区使用此图片"
 
 msgid " Use a photo or picture"
-msgstr " 使用照片或图片："
+msgstr " 使用照片或图片"
 
 msgid "Background Variant: "
 msgstr "背景变体： "
@@ -44,16 +44,16 @@ msgstr "图片变体： "
 msgid ""
 " Default for this Workspace| Background Variant 1| Background Variant 2| Backg"
 "round Variant 3| Background Variant 4 "
-msgstr " 此工作区默认值| 背景变体 1| 背景变体 2| 背景变体 3| 背景变体 4 "
+msgstr " 当前工作区默认| 背景变体 1| 背景变体 2| 背景变体 3| 背景变体 4 "
 
 msgid " Default for this Workspace"
-msgstr " 此工作区默认值"
+msgstr " 当前工作区默认"
 
 msgid " Stretch Picture | Tile Picture| Original Picture "
-msgstr " 拉伸图片 | 平铺图片| 原始图片 "
+msgstr " 拉伸图片 | 平铺图片 | 原始图片 "
 
 msgid " Load Custom Palette ... "
-msgstr " 加载自定义调色板 ... "
+msgstr " 加载自定义色板 ... "
 
 msgid " Preview | Preview | Revert "
 msgstr " 预览 | 预览 | 还原 "
@@ -78,7 +78,7 @@ msgstr "帮助"
 
 # Palette Chooser
 msgid " Choose a Palette "
-msgstr " 选择调色板 "
+msgstr " 选择色板 "
 
 msgid "Cancel"
 msgstr "取消"
@@ -96,4 +96,4 @@ msgid "Pictures:"
 msgstr "图片："
 
 msgid "Palette:"
-msgstr "调色板："
+msgstr "色板："
