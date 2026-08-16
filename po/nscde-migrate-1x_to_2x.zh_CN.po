@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2021-11-08 09:35+0100\n"
-"PO-Revision-Date: 2026-04-05 16:01+0800\n"
+"PO-Revision-Date: 2026-08-15 18:32-0300\n"
 "Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -75,38 +75,38 @@ msgid "Migrate"
 msgstr "迁移"
 
 msgid "No automatic migration will be performed. This migration process will"
-msgstr "将不执行自动迁移。此迁移过程将"
+msgstr "不会执行自动迁移。此迁移过程"
 
 msgid "not run again. You will have to handle migration manually - either by"
-msgstr "不再运行。您必须手动处理迁移 - 可以通过"
+msgstr "将不会再次运行。您需要手动完成迁移："
 
 msgid "running this script in non-interactive or interactive mode again after"
-msgstr "在删除"
+msgstr "一种方法是在删除下列文件后，以非交互或交互模式再次运行此脚本："
 
 msgid "removing "
-msgstr "删除 "
+msgstr "待删除文件："
 
 msgid "or by editing files."
-msgstr " 后再次以非交互或交互模式运行此脚本，或通过编辑文件。"
+msgstr "另一种方法是手动编辑相关文件。"
 
 msgid "Press return to cancel migration and exit. "
 msgstr "按回车键取消迁移并退出。"
 
 msgid "No automatic migration will be performed. This migration script will"
-msgstr "将不执行自动迁移。此迁移脚本将在"
+msgstr "不会执行自动迁移。此迁移脚本"
 
 msgid ""
 "run again on next log in. To disable, choose Abort action from the menu."
-msgstr "下次登录时再次运行。要禁用，请从菜单中选择\"中止\"操作。"
+msgstr "会在下次登录时再次运行。要禁用它，请从菜单中选择“中止”。"
 
 msgid "This migration process will now restart NsCDE in normal mode. Many of"
-msgstr "此迁移过程现在将以正常模式重启 NsCDE。在文件"
+msgstr "NsCDE 现在将以正常模式重启。"
 
 msgid "your configurations will not work properly until files are not renamed"
-msgstr "未重命名且其中的路径名和名称未合并之前，您的许多配置将无法正常工作。"
+msgstr "在相关文件完成重命名、其中的路径名完成统一之前，"
 
 msgid "and pathnames consolidated in them."
-msgstr "且其中的路径名已合并之后。"
+msgstr "许多配置将无法正常工作。"
 
 msgid "Press return to escape migration for now. "
 msgstr "按回车键暂时跳过迁移。"
@@ -121,25 +121,25 @@ msgid "ATTENTION:"
 msgstr "注意："
 
 msgid "If you have used NsCDE CSS styling for Firefox and/or Thunderbird,"
-msgstr "如果您为 Firefox 和/或 Thunderbird 使用了 NsCDE CSS 样式，"
+msgstr "如果您曾为 Firefox 和/或 Thunderbird 启用 NsCDE CSS 样式，"
 
 msgid "you will have to either fix manually new symlink and @import paths"
-msgstr "您将需要手动修复新的符号链接和 @import 路径，"
+msgstr "则需要手动修复新的符号链接和 @import 路径；它们"
 
 msgid "in your Firefox and/or Thunderbird chrome subdirectory inside profile"
-msgstr "在您的 Firefox 和/或 Thunderbird 配置文件内的 chrome 子目录中。"
+msgstr "位于 Firefox 和/或 Thunderbird 配置文件中的 chrome 子目录"
 
 msgid "directory. The easiest way (if you don't have any other customizations"
-msgstr "最简单的方法（如果您没有其他自定义"
+msgstr "内。最简单的方法（如果其中没有其他自定义内容）"
 
 msgid "there) is to remove all contents of chrome/ subdirectory and rerun"
-msgstr "）是删除 chrome/ 子目录的所有内容并重新运行"
+msgstr "是删除 chrome/ 子目录中的全部内容，然后重新运行"
 
 msgid "Color Style Manager with the choosen color scheme to recreate NsCDE"
-msgstr "颜色样式管理器并选择颜色方案以重新创建 NsCDE"
+msgstr "颜色样式管理器，使用选定的配色方案重新创建 NsCDE"
 
 msgid "CSS customizations for this Mozilla applications."
-msgstr "对这些 Mozilla 应用程序的 CSS 自定义。"
+msgstr "针对这些 Mozilla 应用程序的 CSS 自定义内容。"
 
 msgid "Press return to restart NsCDE with migrated profile."
 msgstr "按回车键使用迁移后的配置文件重启 NsCDE。"
@@ -152,7 +152,7 @@ msgstr "请重试：输入 1、2 或 3"
 
 # Errors
 msgid "Error: cannot change directory to"
-msgstr "错误：无法切换到目录"
+msgstr "错误：无法切换到目录："
 
 msgid "Error: ised script wrapper not found. Check if $NSCDE_TOOLSDIR is set."
 msgstr "错误：找不到 ised 脚本包装器。检查是否已设置 $NSCDE_TOOLSDIR。"
@@ -172,34 +172,34 @@ msgid "rerun migration script without \"-i\" option."
 msgstr "不带 \"-i\" 选项重新运行迁移脚本。"
 
 msgid "Error: cannot change directory to "
-msgstr "错误：无法切换到目录 "
+msgstr "错误：无法切换到目录："
 
 msgid "Backup copy of "
-msgstr "备份副本 "
+msgstr "已将 "
 
 msgid "saved as "
-msgstr " 的备份已保存为 "
+msgstr " 备份为 "
 
 msgid "Error: cannot change directory back to "
-msgstr "错误：无法切换回目录 "
+msgstr "错误：无法切换回目录："
 
 msgid "Error: backing up "
 msgstr "错误：备份 "
 
 msgid " exited with exit status "
-msgstr " 退出，退出状态为 "
+msgstr " 失败，退出状态为 "
 
 msgid "Renaming "
-msgstr "正在重命名 "
+msgstr "正在将 "
 
 msgid " to "
-msgstr " 为 "
+msgstr " 重命名为 "
 
 msgid "Error: Renaming "
-msgstr "错误：重命名 "
+msgstr "错误：将 "
 
 msgid " returned error "
-msgstr " 返回错误 "
+msgstr " 失败，错误码为 "
 
 msgid "Renaming Pager-LocalPager.fvwmconf to LocalPager.fvwmconf"
 msgstr "正在将 Pager-LocalPager.fvwmconf 重命名为 LocalPager.fvwmconf"
@@ -223,28 +223,28 @@ msgid "Relinking "
 msgstr "正在重新链接 "
 
 msgid "Changing "
-msgstr "正在更改 "
+msgstr "正在将 "
 
 msgid " occurences to "
-msgstr " 的出现为 "
+msgstr " 替换为 "
 
 msgid " in all regular files inside ~/.NsCDE"
-msgstr " 在 ~/.NsCDE 中的所有常规文件中"
+msgstr "（范围：~/.NsCDE 中的所有普通文件）"
 
 msgid "Processing "
 msgstr "正在处理 "
 
 msgid " with pathname replacements for NsCDE 2.0"
-msgstr " 使用 NsCDE 2.0 的路径名替换"
+msgstr "：替换 NsCDE 2.0 路径名"
 
 msgid "Processing icon paths in FrontPanel.actions"
 msgstr "正在处理 FrontPanel.actions 中的图标路径"
 
 msgid " for button "
-msgstr " 用于按钮 "
+msgstr "；对应按钮："
 
 msgid "Processing icon paths in Subpanels.actions"
 msgstr "正在处理 Subpanels.actions 中的图标路径"
 
 msgid " for entry "
-msgstr " 用于条目 "
+msgstr "；对应条目："

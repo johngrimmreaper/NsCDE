@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-04-05 15:55+0800\n"
+"PO-Revision-Date: 2026-08-15 18:32-0300\n"
 "Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -573,10 +573,10 @@ msgid ""
 msgstr "屏幕保护程序已在配置中禁用。请参阅 NsCDE.conf 中的 \"nscde_use_xscreensaver\"。"
 
 msgid "Cannot find"
-msgstr "找不到"
+msgstr "在 PATH 中找不到"
 
 msgid "in PATH"
-msgstr "在 PATH 中"
+msgstr "；当前 PATH："
 
 msgid "Cannot find \"xscreensaver-command\" in PATH"
 msgstr "在 PATH 中找不到 \"xscreensaver-command\""
@@ -623,20 +623,20 @@ msgid "Default E-mail application is not set. You can set"
 msgstr "未设置默认电子邮件应用程序。您可以设置"
 
 msgid "in your"
-msgstr "在您的"
+msgstr "；配置文件为"
 
 msgid ""
 "file and it will be called when e-mail icon is clicked. For visual letter icon"
 " notifications to work, a FVWM function called"
-msgstr "文件中，点击邮件图标时将调用它。要使可视化信件图标通知起作用，必须启用并编辑名为"
+msgstr "。单击邮件图标时将调用它。要启用信件图标通知，请启用并编辑名为"
 
 msgid "must be enabled and edited in your"
-msgstr "的 FVWM 函数"
+msgstr "的 FVWM 函数；该函数位于"
 
 msgid ""
 "file. See the documentation for ideas how to set up personal e-mail notificati"
 "ons."
-msgstr "文件。请参阅文档以获取有关如何设置个人电子邮件通知的建议。"
+msgstr "。有关个人邮件通知的设置方法，请参阅文档。"
 
 msgid "Calendar Function"
 msgstr "日历功能"
@@ -644,19 +644,19 @@ msgstr "日历功能"
 msgid ""
 "Default action is not set. If you wish to call some application when calendar "
 "icon is clicked, you must enable and edit"
-msgstr "未设置默认操作。如果希望在点击日历图标时调用某个应用程序，必须启用并编辑"
+msgstr "未设置默认操作。如果希望在单击日历图标时启动应用程序，请启用并编辑"
 
 msgid "FVWM function in your"
-msgstr "FVWM 函数"
+msgstr "这个 FVWM 函数；它位于"
 
 msgid "file. See the documentation for ideas how to set that up."
-msgstr "文件。请参阅文档以获取有关如何设置的建议。"
+msgstr "。有关设置方法，请参阅文档。"
 
 msgid "Audio Mixer Function"
 msgstr "音频混音器功能"
 
 msgid "Write your f_Mixer function in"
-msgstr "在以下位置编写您的 f_Mixer 函数"
+msgstr "请在以下文件中编写 f_Mixer 函数："
 
 msgid "FpLite Function Error"
 msgstr "FpLite 功能错误"
@@ -678,22 +678,22 @@ msgid "Error: Application Catalog"
 msgstr "错误：应用程序目录"
 
 msgid "for defining"
-msgstr "用于定义"
+msgstr "（用于定义"
 
 msgid "does not exist"
-msgstr "不存在"
+msgstr "）不存在"
 
 msgid "Error defining"
-msgstr "定义自动默认应用程序时出错"
+msgstr "无法为"
 
 msgid "automatic default: cannot find any usable application."
-msgstr "- 找不到任何可用的应用程序。"
+msgstr "定义自动默认应用程序：找不到可用的应用程序。"
 
 msgid "Cannot find any usable application of type"
-msgstr "找不到任何可用的应用程序类型"
+msgstr "找不到可用的应用程序，类型为"
 
 msgid "Edit your ~/NsCDE/NsCDE.conf and set some value for"
-msgstr "编辑您的 ~/NsCDE/NsCDE.conf 并为以下项目设置值"
+msgstr "请编辑 ~/NsCDE/NsCDE.conf，并为以下项目设置值："
 
 msgid "or try to install some utility or application of that type."
 msgstr "或尝试安装该类型的实用程序或应用程序。"
@@ -793,8 +793,8 @@ msgid ""
 "drop Style Manager, static file Backdrop.fvwmconf must be removed from directo"
 "ry"
 msgstr ""
-"存在静态文件 Backdrops.fvwmconf，将读取它而不是背景样式管理器生成的常规 Backdrops.fvwmgen。要使用背景样式管理器，必须从"
-"目录中删除静态文件 Backdrop.fvwmconf"
+"存在静态文件 Backdrops.fvwmconf，将读取它，而不是背景样式管理器生成的常规 Backdrops.fvwmgen。要使用背景样式管理器，必须"
+"删除该静态文件。所在目录："
 
 msgid "Selected file is not a valid X Pixmap for Backdrop."
 msgstr "所选文件不是有效的 X 位图背景。"
@@ -815,8 +815,8 @@ msgid ""
 "vwmgen which is produced by the Color Style Manager. In order to use Color Sty"
 "le Manager, static file Colorset.fvwmconf must be removed from directory"
 msgstr ""
-"存在静态文件 Colorset.fvwmconf，将读取它而不是颜色样式管理器生成的常规 Colorset.fvwmgen。要使用颜色样式管理器，必须从目录"
-"中删除静态文件 Colorset.fvwmconf"
+"存在静态文件 Colorset.fvwmconf，将读取它，而不是颜色样式管理器生成的常规 Colorset.fvwmgen。要使用颜色样式管理器，必须删"
+"除该静态文件。所在目录："
 
 msgid ""
 "Default number of colors is not defined. Setting default number of colors to 8"
@@ -828,10 +828,10 @@ msgid ""
 msgstr "选择要修改的当前调色板的基色之一。"
 
 msgid "Error renaming"
-msgstr "重命名时出错"
+msgstr "无法将"
 
 msgid "into"
-msgstr "为"
+msgstr "重命名为"
 
 msgid "Selected file"
 msgstr "所选文件"
@@ -854,7 +854,7 @@ msgid "Config Set Error"
 msgstr "配置设置错误"
 
 msgid "Error creating"
-msgstr "创建时出错"
+msgstr "无法创建"
 
 msgid "Error"
 msgstr "错误"
@@ -919,7 +919,7 @@ msgid ""
 msgstr "存在静态字体配置文件，将读取它而不是字体样式管理器生成的常规文件。要使用字体样式管理器，必须删除静态文件："
 
 msgid "Error removing"
-msgstr "删除时出错"
+msgstr "无法删除"
 
 msgid "Fontset file"
 msgstr "字体集文件"
@@ -931,7 +931,7 @@ msgid "No fontset file was selected prior to removal action."
 msgstr "在删除操作之前未选择字体集文件。"
 
 msgid "Error editing"
-msgstr "编辑时出错"
+msgstr "无法编辑"
 
 # Double ...
 # msgid "Error creating"

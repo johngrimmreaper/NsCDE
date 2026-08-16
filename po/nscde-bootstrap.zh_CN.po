@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-04-05 15:58+0800\n"
+"PO-Revision-Date: 2026-08-15 18:32-0300\n"
 "Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -77,7 +77,7 @@ msgid "already exists."
 msgstr "已存在"
 
 msgid "Setting up X resources in"
-msgstr "正在设置 X 资源于"
+msgstr "正在以下位置设置 X 资源："
 
 msgid "pieces that do not exist:"
 msgstr "不存在的部分："
@@ -92,7 +92,7 @@ msgid "Initializing default"
 msgstr "正在初始化默认"
 
 msgid "Making additional subdirectories in"
-msgstr "正在创建额外子目录于"
+msgstr "正在以下位置创建额外的子目录："
 
 msgid "Writing"
 msgstr "正在写入"
@@ -145,7 +145,7 @@ msgid "Setting NsCDE theme options."
 msgstr "正在设置 NsCDE 主题选项。"
 
 msgid "Generating default theme for Gtk2/Gtk3 in"
-msgstr "正在为 Gtk2/Gtk3 生成默认主题于"
+msgstr "正在以下位置生成 Gtk2/Gtk3 默认主题："
 
 msgid "Integrating Qt4 theme with generated Gtk2 theme ..."
 msgstr "正在将 Qt4 主题与生成的 Gtk2 主题集成 ..."
@@ -256,13 +256,13 @@ msgid "Logout and login again for the full changes to take effect."
 msgstr "注销并重新登录以使所有更改生效。"
 
 msgid "You can set $[infostore.terminal] variable to your favorite"
-msgstr "您可以将 $[infostore.terminal] 变量设置为您喜欢的"
+msgstr "您可以将 $[infostore.terminal] 变量设置为您偏好的"
 
 msgid "terminal program in"
-msgstr "终端程序于"
+msgstr "终端程序，设置位置为"
 
 msgid "or leave autodiscovery"
-msgstr "或保留自动发现"
+msgstr "；也可以保留自动检测"
 
 msgid "Hint: See"
 msgstr "提示：请参阅"
@@ -286,10 +286,10 @@ msgid "does not exist."
 msgstr "不存在。"
 
 msgid "Installing default .xscreensaver file as "
-msgstr "正在安装默认 .xscreensaver 文件为 "
+msgstr "正在安装默认 .xscreensaver 文件，目标路径："
 
 msgid "Installing default rofi config file as "
-msgstr "正在安装默认 rofi 配置文件为 "
+msgstr "正在安装默认 rofi 配置文件，目标路径："
 
 msgid "Backing up pre-NsCDE GTK and Qt config files as "
-msgstr "正在备份 NsCDE 之前的 GTK 和 Qt 配置文件为 "
+msgstr "正在备份 NsCDE 修改前的 GTK 和 Qt 配置文件，备份文件："
