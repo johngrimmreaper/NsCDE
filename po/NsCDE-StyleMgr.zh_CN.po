@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-04-05 16:02+0800\n"
+"PO-Revision-Date: 2026-08-15 19:47-0300\n"
 "Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -29,7 +29,7 @@ msgid "0000000000000000000000000000000000000000000000000000000000000000000"
 msgstr "000000000000000000000000000000000000000000000000000000000000000"
 
 msgid "Help|Style Manager Key Bindings|Style Manager Help"
-msgstr "帮助|样式管理器键绑定|样式管理器帮助"
+msgstr "帮助|样式管理器快捷键|样式管理器帮助"
 
 msgid "Color"
 msgstr "颜色"
@@ -47,7 +47,7 @@ msgid "Mouse"
 msgstr "鼠标"
 
 msgid "Beep"
-msgstr "蜂鸣"
+msgstr "提示音"
 
 msgid "Screen"
 msgstr "屏幕"
@@ -66,7 +66,7 @@ msgstr "启动"
 
 # Key bindings cheat sheet message window
 msgid "The following keybindings are available for Style Manager:"
-msgstr "样式管理器可使用以下键绑定："
+msgstr "以下快捷键可用于样式管理器："
 
 msgid "- Ctrl+Q: File -> Exit"
 msgstr "- Ctrl+Q: 文件 -> 退出"
@@ -90,7 +90,7 @@ msgid "- M: Open Mouse Style Manager"
 msgstr "- M: 打开鼠标样式管理器"
 
 msgid "- E: Open Beep Style Manager"
-msgstr "- E: 打开蜂鸣样式管理器"
+msgstr "- E: 打开提示音样式管理器"
 
 msgid "- S: Open Screen Style Manager"
 msgstr "- S: 打开屏幕样式管理器"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-08-15 18:46-0300\n"
+"PO-Revision-Date: 2026-08-15 19:47-0300\n"
 "Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -23,7 +23,7 @@ msgid "Style Manager - Color"
 msgstr "样式管理器 - 颜色"
 
 msgid " Palettes "
-msgstr " 调色板 "
+msgstr " 色板 "
 
 msgid " Preview | Preview | Revert "
 msgstr " 预览 | 预览 | 还原 "
@@ -95,10 +95,10 @@ msgid " Run $FVWM_USERDIR/libexec/colormgr.local"
 msgstr " 运行 $FVWM_USERDIR/libexec/colormgr.local"
 
 msgid " Run $FVWM_USERDIR/libexec/colormgr.local (missing script)"
-msgstr " 运行 $FVWM_USERDIR/libexec/colormgr.local (缺少脚本)"
+msgstr " 运行 $FVWM_USERDIR/libexec/colormgr.local（脚本缺失）"
 
 msgid "Palette Name"
-msgstr "调色板名称"
+msgstr "色板名称"
 
 msgid "R"
 msgstr "R"
@@ -111,7 +111,7 @@ msgstr "B"
 
 # Number Of Colors To Use dialog
 msgid " Number Of Colors To Use "
-msgstr " 使用的颜色数量 "
+msgstr " 要使用的颜色数量 "
 
 msgid "Use 8 Colors Scheme"
 msgstr "使用 8 色方案"
@@ -142,7 +142,7 @@ msgid "New"
 msgstr "新"
 
 msgid "Grab Color"
-msgstr "拾取颜色"
+msgstr "取色"
 
 msgid "Color Editor"
 msgstr "颜色编辑器"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-08-15 18:46-0300\n"
+"PO-Revision-Date: 2026-08-15 19:47-0300\n"
 "Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -29,10 +29,10 @@ msgid "Occupy Monitor"
 msgstr "占用显示器"
 
 msgid "Select Page, pick a Window."
-msgstr "选择页面，选取窗口。"
+msgstr "选择页面，选取一个窗口。"
 
 msgid "Select Workspace, pick a Window."
-msgstr "选择工作区，选取窗口。"
+msgstr "选择工作区，选取一个窗口。"
 
 msgid "Window:"
 msgstr "窗口："
@@ -47,13 +47,13 @@ msgid "Monitors:"
 msgstr "显示器："
 
 msgid " All Workspaces    "
-msgstr " 所有工作区    "
+msgstr " 所有工作区       "
 
 msgid " All Pages      "
-msgstr " 所有页面      "
+msgstr " 所有页面       "
 
 msgid " Go with the Window"
-msgstr " 跟随窗口"
+msgstr " 跟随窗口移动"
 
 msgid "OK"
 msgstr "确定"
