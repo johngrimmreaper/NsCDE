@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-06-11 09:35+0100\n"
-"PO-Revision-Date: 2026-04-05 16:01+0800\n"
+"PO-Revision-Date: 2026-08-15 18:46-0300\n"
 "Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -85,3 +85,27 @@ msgstr "检查中 ..."
 
 msgid "Check All Now"
 msgstr "立即检查全部"
+
+msgid " NsCDE Process Management "
+msgstr " NsCDE 进程管理 "
+
+msgid "  Xsettingsd"
+msgstr "  Xsettingsd"
+
+msgid "  Stalonetray"
+msgstr "  Stalonetray"
+
+msgid "  Xscreensaver"
+msgstr "  Xscreensaver"
+
+msgid "  Fvwm Event"
+msgstr "  Fvwm 事件"
+
+msgid "  Fvwm Animate"
+msgstr "  Fvwm 动画"
+
+msgid "  Local Pager"
+msgstr "  本地页面切换器"
+
+msgid "  Fvwm Backer"
+msgstr "  Fvwm 背景管理器"

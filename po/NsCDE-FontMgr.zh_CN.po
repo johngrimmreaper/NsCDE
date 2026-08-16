@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-04-28 00:00+0000\n"
+"PO-Revision-Date: 2026-08-15 18:46-0300\n"
 "Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -54,7 +54,7 @@ msgid "Regular|Bold|Italic|Monospaced|Monospaced Bold"
 msgstr "常规|粗体|斜体|等宽|等宽粗体"
 
 msgid "Quick Brown Fox Jumps Over a Lazy Dog ..."
-msgstr "敏捷的棕色狐狸跳过了懒狗 ..."
+msgstr "敏捷的棕狐跃过懒狗……"
 
 msgid "Not available"
 msgstr "不可用"
@@ -121,3 +121,9 @@ msgstr " GTK4 控件 (尚未实现)"
 
 msgid " Local Hooks (fontmgr.local)"
 msgstr " 本地钩子 (fontmgr.local)"
+
+msgid "Font Sets"
+msgstr "字体集"
+
+msgid " Local Hooks (fontmgr.local is missing)"
+msgstr " 本地钩子（缺少 fontmgr.local）"

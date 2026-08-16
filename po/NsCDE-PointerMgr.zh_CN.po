@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-04-05 16:01+0800\n"
+"PO-Revision-Date: 2026-08-15 18:46-0300\n"
 "Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -57,3 +57,9 @@ msgstr "加速度"
 
 msgid "Threshold"
 msgstr "阈值"
+
+msgid "First: "
+msgstr "第一次："
+
+msgid "Second: "
+msgstr "第二次："

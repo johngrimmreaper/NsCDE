@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-08-15 18:32-0300\n"
+"PO-Revision-Date: 2026-08-15 18:46-0300\n"
 "Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -1430,3 +1430,81 @@ msgstr "系统操作对话框帮助"
 
 msgid "System Information Help"
 msgstr "系统信息帮助"
+
+# Generic FvwmScript dialogs
+msgid "Question"
+msgstr "询问"
+
+msgid "Please select option you want:"
+msgstr "请选择所需选项："
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Enter Required Parameter:"
+msgstr "请输入所需参数："
+
+msgid "WaitNotice"
+msgstr "等待提示"
+
+msgid " Action in Progress ... "
+msgstr " 操作正在进行 ... "
+
+# Main menus and globally expanded Fvwm strings
+msgid "Documentation"
+msgstr "文档"
+
+msgid "Default Key and Mouse Bindings"
+msgstr "默认键盘和鼠标绑定"
+
+msgid "&Full Screen"
+msgstr "全屏(&F)"
+
+msgid "GWM"
+msgstr "GWM"
+
+msgid "GW&M"
+msgstr "GWM(&W)"
+
+msgid "Middle"
+msgstr "中间"
+
+msgid "Delete Fontset"
+msgstr "删除字体集"
+
+msgid "Enter New Fontset Name:"
+msgstr "输入新字体集名称："
+
+msgid "FVWM is already running."
+msgstr "FVWM 已在运行。"
+
+msgid "Style Manager Key Bindings"
+msgstr "样式管理器键绑定"
+
+msgid "Front Panel Icon Manager"
+msgstr "前面板图标管理器"
+
+msgid "Error: Func:f_ClipboardAreaScreenShot: No xclip(1) command found for making screen area screenshot into clipboard. PATH:"
+msgstr "错误：Func:f_ClipboardAreaScreenShot：找不到用于将区域截图复制到剪贴板的 xclip(1) 命令。PATH："
+
+msgid "Error: Func:f_ClipboardRootScreenShot: No xclip(1) command found for making root window screenshot into clipboard. PATH:"
+msgstr "错误：Func:f_ClipboardRootScreenShot：找不到用于将根窗口截图复制到剪贴板的 xclip(1) 命令。PATH："
+
+# Splash screen
+msgid "running on"
+msgstr "运行于"
+
+msgid "Using"
+msgstr "使用"
+
+msgid "version"
+msgstr "版本"
+
+msgid "as the Window Manager."
+msgstr "作为窗口管理器。"
+
+msgid "NsCDE is Free Software released under the GPLv3 licence."
+msgstr "NsCDE 是根据 GPLv3 许可证发布的自由软件。"
+
+msgid "Starting Up ..."
+msgstr "正在启动 ..."

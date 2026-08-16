@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-04-05 16:04+0800\n"
+"PO-Revision-Date: 2026-08-15 18:46-0300\n"
 "Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -87,3 +87,33 @@ msgstr "七"
 
 msgid "Eight"
 msgstr "八"
+
+msgid "Nr. of Desks: "
+msgstr "工作区数："
+
+msgid "Pages per Desk: "
+msgstr "每个工作区的页面数："
+
+msgid "Total Pages: "
+msgstr "总页面数："
+
+msgid "Close"
+msgstr "关闭"
+
+msgid " One "
+msgstr " 一 "
+
+msgid " Two "
+msgstr " 二 "
+
+msgid " Three "
+msgstr " 三 "
+
+msgid " Four "
+msgstr " 四 "
+
+msgid " Five "
+msgstr " 五 "
+
+msgid " Six "
+msgstr " 六 "

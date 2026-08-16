@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-04-05 16:02+0800\n"
+"PO-Revision-Date: 2026-08-15 18:46-0300\n"
 "Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -196,3 +196,58 @@ msgstr "NsCDE-Subpanel9-Width 206"
 
 msgid "NsCDE-Subpanel10-Width 204"
 msgstr "NsCDE-Subpanel10-Width 222"
+
+# Additional default subpanel entries
+msgid "Vinagre"
+msgstr "Vinagre"
+
+msgid "Dia Diagram Editor"
+msgstr "Dia 图表编辑器"
+
+msgid "E Mail"
+msgstr "电子邮件"
+
+msgid "GWM"
+msgstr "GWM"
+
+msgid "Screen Settings"
+msgstr "屏幕设置"
+
+msgid "Qt6 Settings"
+msgstr "Qt6 设置"
+
+msgid "Extras"
+msgstr "附加工具"
+
+msgid "Configuration Files Help"
+msgstr "配置文件帮助"
+
+msgid "Subpanel 11"
+msgstr "子面板 11"
+
+msgid "Subpanel 12"
+msgstr "子面板 12"
+
+msgid "Subpanel 13"
+msgstr "子面板 13"
+
+msgid "Subpanel 14"
+msgstr "子面板 14"
+
+msgid "Subpanel 15"
+msgstr "子面板 15"
+
+msgid "Subpanel 16"
+msgstr "子面板 16"
+
+msgid "Subpanel 17"
+msgstr "子面板 17"
+
+msgid "Subpanel 18"
+msgstr "子面板 18"
+
+msgid "Subpanel 19"
+msgstr "子面板 19"
+
+msgid "Subpanel 20"
+msgstr "子面板 20"

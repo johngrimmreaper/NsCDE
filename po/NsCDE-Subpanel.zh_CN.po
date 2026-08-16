@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-04-05 16:02+0800\n"
+"PO-Revision-Date: 2026-08-15 18:46-0300\n"
 "Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -49,7 +49,7 @@ msgstr "命令："
 msgid "Icon File:"
 msgstr "图标文件："
 
-msgid " Do not check for command existance"
+msgid " Do not check whether the command exists"
 msgstr " 不检查命令是否存在"
 
 msgid "Apply"
@@ -93,3 +93,9 @@ msgstr "确定"
 
 msgid "Close"
 msgstr "关闭"
+
+msgid "Check for this cmd:"
+msgstr "检查此命令："
+
+msgid "Subpanel Settings: "
+msgstr "子面板设置："
