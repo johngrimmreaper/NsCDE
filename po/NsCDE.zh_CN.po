@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-08-15 19:51-0300\n"
+"PO-Revision-Date: 2026-08-15 20:05-0300\n"
 "Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -575,11 +575,8 @@ msgstr "屏幕保护程序已在配置中禁用。请参阅 NsCDE.conf 中的 \"
 msgid "Cannot find"
 msgstr "在 PATH 中找不到"
 
-msgid "in PATH"
+msgid " in PATH:"
 msgstr "；当前 PATH："
-
-msgid "Cannot find \"xscreensaver-command\" in PATH"
-msgstr "在 PATH 中找不到 \"xscreensaver-command\""
 
 msgid "No X Screen Saver (xscreensaver) is running on display"
 msgstr "显示器上没有运行 X 屏幕保护程序 (xscreensaver)"
@@ -622,19 +619,19 @@ msgstr "检查邮件功能"
 msgid "Default E-mail application is not set. You can set"
 msgstr "未设置默认电子邮件应用程序。您可以设置"
 
-msgid "in your"
+msgid " in your"
 msgstr "；配置文件为"
 
 msgid ""
-"file and it will be called when e-mail icon is clicked. For visual letter icon"
+" file and it will be called when e-mail icon is clicked. For visual letter icon"
 " notifications to work, a FVWM function called"
 msgstr "。单击邮件图标时将调用它。要启用信件图标通知，请启用并编辑名为"
 
-msgid "must be enabled and edited in your"
+msgid " must be enabled and edited in your"
 msgstr "的 FVWM 函数；该函数位于"
 
 msgid ""
-"file. See the documentation for ideas how to set up personal e-mail notificati"
+" file. See the documentation for ideas how to set up personal e-mail notificati"
 "ons."
 msgstr "。有关个人邮件通知的设置方法，请参阅文档。"
 
@@ -649,7 +646,7 @@ msgstr "未设置默认操作。如果希望在单击日历图标时启动应用
 msgid "FVWM function in your"
 msgstr "这个 FVWM 函数；它位于"
 
-msgid "file. See the documentation for ideas how to set that up."
+msgid " file. See the documentation for ideas how to set that up."
 msgstr "。有关设置方法，请参阅文档。"
 
 msgid "Audio Mixer Function"
