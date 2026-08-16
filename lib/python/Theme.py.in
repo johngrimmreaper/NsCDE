@@ -15,6 +15,10 @@ from os.path import expanduser
 from MiscFun import *
 import ThemeGtk
 import shutil
+import gettext
+
+_LOCALE_DIR = os.path.normpath(os.path.join("@NSCDE_DATADIR@", os.pardir, "locale"))
+_ = gettext.translation("NsCDE", localedir=_LOCALE_DIR, fallback=True).gettext
 
 class Theme():
     def __init__(self,opts):
@@ -26,10 +30,12 @@ class Theme():
         # checkDir(userhome)
         homedotthemes=os.path.join(userhome,'.themes')
         if not os.path.exists(homedotthemes):
-            print ('Themes directory not found; creating: '+homedotthemes)
-            try: os.makedirs(homedotthemes)
-            except OSError as e: sys.stderr.write("Failed to create ~/.themes: "+str(e)+"\n")
-            sys.exit(2)
+            print (_('Themes directory not found; creating: %s') % homedotthemes)
+            try:
+                os.makedirs(homedotthemes)
+            except OSError as e:
+                sys.stderr.write(_('Failed to create ~/.themes: %s\n') % e)
+                sys.exit(2)
 
         # if .themes/NsCDE not exist: copy
         if os.path.exists(homedotthemes):
@@ -39,8 +45,8 @@ class Theme():
             print (Globals.themesrcdir)
             #sys.exit()
             if not os.path.exists(Globals.themedir):
-                print ('Theme directory not found: '+Globals.themedir)
-                print ('Copying the default theme from: '+Globals.themesrcdir)
+                print (_('Theme directory not found: %s') % Globals.themedir)
+                print (_('Copying the default theme from: %s') % Globals.themesrcdir)
                 shutil.copytree(Globals.themesrcdir,Globals.themedir,symlinks=True)
 
             if os.path.lexists(Globals.userthemedir): shutil.rmtree(Globals.userthemedir)
@@ -60,8 +66,8 @@ class Theme():
 
     # Zees eeze nedded unly vunce
     def doUpdateTheme(self):
-        print ("Generating Gtk2 theme:", self.opts.themeGtk2)
-        print ("Generating Gtk3 theme:", self.opts.themeGtk3)
+        print (_('Generating Gtk2 theme: %s') % self.opts.themeGtk2)
+        print (_('Generating Gtk3 theme: %s') % self.opts.themeGtk3)
 
         palettefilefullpath=os.path.join(Globals.palettedir,self.opts.currentpalettefile)
 
