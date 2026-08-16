@@ -1,0 +1,176 @@
+# Simplified Chinese translations for the NsCDE helper tools.
+# SPDX-FileCopyrightText: 2026 Reaper <JohnGrimmReaper@disroot.org>
+# SPDX-License-Identifier: GPL-3.0-only
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: NsCDE\n"
+"POT-Creation-Date: 2026-08-15 19:10-0300\n"
+"PO-Revision-Date: 2026-08-15 19:10-0300\n"
+"Last-Translator: Reaper <JohnGrimmReaper@disroot.org>\n"
+"Language-Team: WenYin Community\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "               [ -b ] [ -x ] [ -g <gtk2|False,gtk3|False,gtk4|False> ] [ -q qt4,qt5g|qt5k,qt6 ]"
+msgstr "               [ -b ] [ -x ] [ -g <gtk2|False,gtk3|False,gtk4|False> ] [ -q qt4,qt5g|qt5k,qt6 ]"
+
+msgid "               [ -l ] [ -r ] [ -R ] [ -h ]"
+msgstr "               [ -l ] [ -r ] [ -R ] [ -h ]"
+
+#, c-format
+msgid "Error: %s: cannot find GNU sed."
+msgstr "错误：%s：找不到 GNU sed。"
+
+#, c-format
+msgid "Error: %s: no entry found for line %s in subpanel %s."
+msgstr "错误：%s：找不到第 %s 行对应的子面板 %s 条目。"
+
+#, c-format
+msgid "Error: %s: unknown operation mode."
+msgstr "错误：%s：未知的操作模式。"
+
+msgid "Error: FVWM_USERDIR is not set."
+msgstr "错误：未设置 FVWM_USERDIR。"
+
+msgid "Error: FVWM_USERDIR is not set; cannot continue."
+msgstr "错误：未设置 FVWM_USERDIR，无法继续。"
+
+msgid "Error: HOME is not set; cannot continue."
+msgstr "错误：未设置 HOME，无法继续。"
+
+msgid "Error: NSCDE_DATADIR does not exist; cannot continue."
+msgstr "错误：NSCDE_DATADIR 不存在，无法继续。"
+
+msgid "Error: NSCDE_DATADIR is not set. Exiting."
+msgstr "错误：未设置 NSCDE_DATADIR。正在退出。"
+
+msgid "Error: NSCDE_DATADIR is not set; cannot continue."
+msgstr "错误：未设置 NSCDE_DATADIR，无法继续。"
+
+msgid "Error: NSCDE_ROOT does not exist; cannot continue."
+msgstr "错误：NSCDE_ROOT 不存在，无法继续。"
+
+msgid "Error: NSCDE_ROOT is not set. Exiting."
+msgstr "错误：未设置 NSCDE_ROOT。正在退出。"
+
+msgid "Error: NSCDE_ROOT is not set; cannot continue."
+msgstr "错误：未设置 NSCDE_ROOT，无法继续。"
+
+msgid "Error: NSCDE_TOOLSDIR is not defined."
+msgstr "错误：未定义 NSCDE_TOOLSDIR。"
+
+#, c-format
+msgid "Error: cannot load %s."
+msgstr "错误：无法加载 %s。"
+
+#, c-format
+msgid "Error: cannot open %s for reading."
+msgstr "错误：无法打开 %s 进行读取。"
+
+#, c-format
+msgid "Error: cannot open %s."
+msgstr "错误：无法打开 %s。"
+
+#, c-format
+msgid "Error: cannot read %s."
+msgstr "错误：无法读取 %s。"
+
+#, c-format
+msgid "Error: could not convert photo %s."
+msgstr "错误：无法转换照片 %s。"
+
+#, c-format
+msgid "Error: could not get the image path for %s."
+msgstr "错误：无法获取 %s 的图像路径。"
+
+#, c-format
+msgid "Error: invalid configuration for subpanel %s in %s."
+msgstr "错误：子面板 %s 在 %s 中的配置无效。"
+
+msgid "Error: missing subpanel number."
+msgstr "错误：缺少子面板编号。"
+
+msgid "Error: the fc-list command was not found."
+msgstr "错误：找不到 fc-list 命令。"
+
+msgid "Error: unknown ACPI operation mode."
+msgstr "错误：未知的 ACPI 操作模式。"
+
+msgid "FVWM_USERDIR is not set. Exiting."
+msgstr "未设置 FVWM_USERDIR。正在退出。"
+
+msgid "NSCDE_DATADIR is not defined. Exiting."
+msgstr "未定义 NSCDE_DATADIR。正在退出。"
+
+msgid "NSCDE_DATADIR is not set. Exiting."
+msgstr "未设置 NSCDE_DATADIR。正在退出。"
+
+msgid "NSCDE_ROOT is not defined. Exiting."
+msgstr "未定义 NSCDE_ROOT。正在退出。"
+
+#, c-format
+msgid "Not available on %s."
+msgstr "%s 上不可用。"
+
+msgid "Notice: hibernation to disk is not supported on NetBSD."
+msgstr "注意：NetBSD 不支持休眠到磁盘。"
+
+msgid "Notice: hybrid suspend is not supported on NetBSD."
+msgstr "注意：NetBSD 不支持混合挂起。"
+
+msgid "Notice: hybrid suspend is not supported on OpenBSD."
+msgstr "注意：OpenBSD 不支持混合挂起。"
+
+#, c-format
+msgid "Palette %s was not found at \"%s\"."
+msgstr "找不到色板 %s（路径：“%s”）。"
+
+msgid "Pixmap modification is disabled in preview mode."
+msgstr "预览模式下不会修改像素图。"
+
+#, c-format
+msgid "Refreshing subpanel %s"
+msgstr "正在刷新子面板 %s"
+
+#, c-format
+msgid "Usage: %s -s <sed options> -c <sed code> [ -f <input file> ] [ -h ]"
+msgstr "用法：%s -s <sed 选项> -c <sed 代码> [ -f <输入文件> ] [ -h ]"
+
+#, c-format
+msgid "Usage: %s <options ...>"
+msgstr "用法：%s <选项 ...>"
+
+#, c-format
+msgid "Usage: %s <options> ..."
+msgstr "用法：%s <选项> ..."
+
+#, c-format
+msgid "Usage: %s <separator> <variable name> <variable value>"
+msgstr "用法：%s <分隔符> <变量名> <变量值>"
+
+#, c-format
+msgid "Usage: %s [ -f <file> ] [ -v(ariable) | -m(onospaced) ] [ -t <normal | bold | italic> ] [ -s <small | medium | large> ] [ -S ] [ -Z <maximum size> ] [ -F ] [ -h ]"
+msgstr "用法：%s [ -f <文件> ] [ -v(ariable) | -m(onospaced) ] [ -t <normal | bold | italic> ] [ -s <small | medium | large> ] [ -S ] [ -Z <最大字号> ] [ -F ] [ -h ]"
+
+#, c-format
+msgid "Usage: %s [ -p <palette name> ] [ -n <number of colors> ] [ -5 | -8 ] [ -w ] [ -m ]"
+msgstr "用法：%s [ -p <色板名称> ] [ -n <颜色数量> ] [ -5 | -8 ] [ -w ] [ -m ]"
+
+#, c-format
+msgid "Usage: %s [ -pP ] [ -F <font-set number> ] [ -f <font-set name> ] [ -gGnN <value> ] [ -s <style> ] [ -rXmTQM <value> ] [ -h ]"
+msgstr "用法：%s [ -pP ] [ -F <字体集编号> ] [ -f <字体集名称> ] [ -gGnN <值> ] [ -s <样式> ] [ -rXmTQM <值> ] [ -h ]"
+
+#, c-format
+msgid "Usage: %s [ -w ] [ -f ] [ -h ]"
+msgstr "用法：%s [ -w ] [ -f ] [ -h ]"
+
+#, c-format
+msgid "Usage: %s [ suspend | hibernate | hybrid-suspend | poweroff | reboot ] [ opmode ]"
+msgstr "用法：%s [ suspend | hibernate | hybrid-suspend | poweroff | reboot ] [ 操作模式 ]"
+
+msgid "xdotool was not found. Exiting."
+msgstr "找不到 xdotool。正在退出。"
