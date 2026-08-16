@@ -150,3 +150,6 @@ msgstr "颜色编辑器"
 
 msgid "Hue"
 msgstr "色相"
+
+msgid "Error occurred while calling Color Selector:"
+msgstr "调用颜色选择器时发生错误："
