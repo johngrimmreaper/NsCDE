@@ -321,7 +321,7 @@ do
          palette_name="$OPTARG"
          palette_path=$($NSCDE_TOOLSDIR/colormgr -e -c $ncolors -g "$palette_name")
          if [ ! -r "$palette_path" ]; then
-            printf "$(nscde_gettext 'Palette %s was not found at "%s".')\n" "$palette_name" "$palette_path"
+            printf "$(nscde_gettext 'Palette %s was not found at %s.')\n" "$palette_name" "$palette_path"
             exit 9
          fi
       ;;
