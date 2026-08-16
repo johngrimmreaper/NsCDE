@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-08-15 18:32-0300\n"
+"PO-Revision-Date: 2026-08-15 19:24-0300\n"
 "Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -293,3 +293,7 @@ msgstr "正在安装默认 rofi 配置文件，目标路径："
 
 msgid "Backing up pre-NsCDE GTK and Qt config files as "
 msgstr "正在备份 NsCDE 修改前的 GTK 和 Qt 配置文件，备份文件："
+
+#, c-format
+msgid "Usage: %s [ -r ] [ -i ] [ -h ]"
+msgstr "用法：%s [ -r ] [ -i ] [ -h ]"
