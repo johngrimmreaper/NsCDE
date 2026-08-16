@@ -1,5 +1,5 @@
 # Simplified Chinese translations for the NsCDE helper tools.
-# SPDX-FileCopyrightText: 2026 Reaper <JohnGrimmReaper@disroot.org>
+# SPDX-FileCopyrightText: 2026 Wenyin Root <ruojiner@hotmail.com>
 # SPDX-License-Identifier: GPL-3.0-only
 #
 msgid ""
@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2026-08-15 19:10-0300\n"
 "PO-Revision-Date: 2026-08-15 19:24-0300\n"
-"Last-Translator: Reaper <JohnGrimmReaper@disroot.org>\n"
+"Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
