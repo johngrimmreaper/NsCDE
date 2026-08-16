@@ -4,12 +4,13 @@
 # Licence: GPLv3
 #
 # SPDX-FileCopyrightText: 2026 Wenyin Root <ruojiner@hotmail.com>
+# SPDX-FileCopyrightText: 2026 Reaper <JohnGrimmReaper@disroot.org>
 msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-04-05 15:56+0800\n"
-"Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
+"PO-Revision-Date: 2026-08-15 18:46-0300\n"
+"Last-Translator: Reaper <JohnGrimmReaper@disroot.org>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -84,3 +85,15 @@ msgstr "取消"
 
 msgid " Default "
 msgstr " 默认 "
+
+msgid " Backdrops "
+msgstr " 背景 "
+
+msgid " Pictures "
+msgstr " 图片 "
+
+msgid "Pictures:"
+msgstr "图片："
+
+msgid "Palette:"
+msgstr "调色板："
