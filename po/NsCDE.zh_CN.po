@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-08-15 18:46-0300\n"
+"PO-Revision-Date: 2026-08-15 18:54-0300\n"
 "Last-Translator: Reaper <JohnGrimmReaper@disroot.org>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -1509,3 +1509,51 @@ msgstr "NsCDE 是根据 GPLv3 许可证发布的自由软件。"
 
 msgid "Starting Up ..."
 msgstr "正在启动 ..."
+
+# Python diagnostics
+msgid "ERROR"
+msgstr "错误"
+
+#, python-format
+msgid "FILE NOT FOUND: %s"
+msgstr "找不到文件：%s"
+
+#, python-format
+msgid "DIRECTORY NOT FOUND: %s"
+msgstr "找不到目录：%s"
+
+#, python-format
+msgid "Themes directory not found; creating: %s"
+msgstr "找不到主题目录；正在创建：%s"
+
+#, python-format
+msgid "Failed to create ~/.themes: %s\n"
+msgstr "无法创建 ~/.themes：%s\n"
+
+#, python-format
+msgid "Theme directory not found: %s"
+msgstr "找不到主题目录：%s"
+
+#, python-format
+msgid "Copying the default theme from: %s"
+msgstr "正在从默认位置复制主题：%s"
+
+#, python-format
+msgid "Generating Gtk2 theme: %s"
+msgstr "正在生成 Gtk2 主题：%s"
+
+#, python-format
+msgid "Generating Gtk3 theme: %s"
+msgstr "正在生成 Gtk3 主题：%s"
+
+#, python-format
+msgid "Loading options from: %s"
+msgstr "正在从以下文件加载选项：%s"
+
+#, python-format
+msgid "Backing up configuration to: %s"
+msgstr "正在将配置备份到：%s"
+
+#, python-format
+msgid "Saving configuration to: %s"
+msgstr "正在将配置保存到：%s"
