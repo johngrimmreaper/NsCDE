@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2021-09-22 09:35+0100\n"
-"PO-Revision-Date: 2026-08-15 18:46-0300\n"
+"PO-Revision-Date: 2026-08-15 19:47-0300\n"
 "Last-Translator: Reaper <JohnGrimmReaper@disroot.org>\n"
 "Language-Team: Chinese\n"
 "Language: zh_CN\n"
@@ -22,19 +22,19 @@ msgid " Workspace|Manage Workspaces ...|Rename ...|Cascade All Windows|Tile All 
 msgstr " 工作区|管理工作区 ...|重命名 ...|层叠所有窗口|垂直平铺所有窗口|水平平铺所有窗口|选项 ...|退出"
 
 msgid " Window|(De)Iconify|(De)Shade|Close Window|Terminate Application|Occupy Workspace ..."
-msgstr " 窗口|(取消)图标化|(取消)卷起|关闭窗口|终止应用程序|占用工作区 ..."
+msgstr " 窗口|最小化/还原|卷起/展开|关闭窗口|终止应用程序|占用工作区 ..."
 
 msgid " Win.|(De)Iconify|(De)Shade|Close Window|Terminate Application|Occupy Workspace ..."
-msgstr " 窗口|(取消)图标化|(取消)卷起|关闭窗口|终止应用程序|占用工作区 ..."
+msgstr " 窗口|最小化/还原|卷起/展开|关闭窗口|终止应用程序|占用工作区 ..."
 
 msgid " Help|GWM Key Bindings|GWM Help"
-msgstr " 帮助|GWM 键绑定|GWM 帮助"
+msgstr " 帮助|GWM 快捷键|GWM 帮助"
 
 msgid " H.|GWM Key Bindings|GWM Help"
-msgstr " 帮助|GWM 键绑定|GWM 帮助"
+msgstr " 帮|GWM 快捷键|GWM 帮助"
 
 msgid "Graphical Workspace Manager Options"
-msgstr "图形工作区管理器选项"
+msgstr "图形化工作区管理器选项"
 
 msgid "  Workspaces  "
 msgstr "  工作区  "
@@ -55,7 +55,7 @@ msgid "Number Of Visible Rows "
 msgstr "可见行数 "
 
 msgid "Desired Workspace Width (Ratio) "
-msgstr "期望工作区宽度 (比例) "
+msgstr "期望工作区宽度（比例） "
 
 msgid " Windows "
 msgstr " 窗口 "
@@ -64,7 +64,7 @@ msgid " Show Window Names In Balloons "
 msgstr " 在气泡中显示窗口名称 "
 
 msgid " Respect Window Skip List            "
-msgstr " 遵守窗口跳过列表            "
+msgstr " 遵循窗口跳过列表            "
 
 msgid " Show Small Icons Inside Windows"
 msgstr " 在窗口内显示小图标"
@@ -83,10 +83,10 @@ msgstr "帮助"
 
 # Keybindings Help Dialog
 msgid "GWM Key Bindings"
-msgstr "GWM 键绑定"
+msgstr "GWM 快捷键"
 
 msgid "The following keybindings are available for GWM:"
-msgstr "GWM 可使用以下键绑定："
+msgstr "以下快捷键可用于 GWM："
 
 msgid "- Ctrl+M: Workspace -> Manage ..."
 msgstr "- Ctrl+M: 工作区 -> 管理 ..."
@@ -115,7 +115,7 @@ msgstr "- Ctrl+Q: 工作区 -> 退出"
 # Notifier
 
 msgid "Graphical Workspace Manager Error"
-msgstr "图形工作区管理器错误"
+msgstr "图形化工作区管理器错误"
 
 msgid "GWM"
 msgstr "GWM"

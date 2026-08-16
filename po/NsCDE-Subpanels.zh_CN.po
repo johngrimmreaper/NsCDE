@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-08-15 18:46-0300\n"
+"PO-Revision-Date: 2026-08-15 19:47-0300\n"
 "Last-Translator: Reaper <JohnGrimmReaper@disroot.org>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -30,13 +30,13 @@ msgid "Office Tools"
 msgstr "办公工具"
 
 msgid "Extra"
-msgstr "额外"
+msgstr "附加"
 
 msgid "E-Mail"
 msgstr "电子邮件"
 
 msgid "Hardware and Printing"
-msgstr "硬件和打印"
+msgstr "硬件与打印"
 
 msgid "Desktop Settings"
 msgstr "桌面设置"
@@ -45,7 +45,7 @@ msgid "Tools"
 msgstr "工具"
 
 msgid "Graphics and Multimedia"
-msgstr "图形和多媒体"
+msgstr "图形与多媒体"
 
 msgid "Help"
 msgstr "帮助"
@@ -96,7 +96,7 @@ msgid "Text Editor"
 msgstr "文本编辑器"
 
 msgid "Virt Manager"
-msgstr "虚拟化管理器"
+msgstr "虚拟机管理器"
 
 msgid "SELinux Troubleshoot"
 msgstr "SELinux 故障排除"
@@ -123,7 +123,7 @@ msgid "Dconf Editor"
 msgstr "Dconf 编辑器"
 
 msgid "Watch Errors"
-msgstr "监视错误"
+msgstr "查看错误"
 
 msgid "Calculator"
 msgstr "计算器"
@@ -147,10 +147,10 @@ msgid "GUI Tools"
 msgstr "GUI 工具"
 
 msgid "Backdrops Palettes ..."
-msgstr "背景调色板 ..."
+msgstr "背景与色板 ..."
 
 msgid "Default Keybindings"
-msgstr "默认键绑定"
+msgstr "默认快捷键"
 
 msgid "Default Mouse Bindings"
 msgstr "默认鼠标绑定"
