@@ -4,12 +4,13 @@
 # Licence: GPLv3
 #
 # SPDX-FileCopyrightText: 2026 Wenyin Root <ruojiner@hotmail.com>
+# SPDX-FileCopyrightText: 2026 Reaper <JohnGrimmReaper@disroot.org>
 msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-04-05 16:01+0800\n"
-"Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
+"PO-Revision-Date: 2026-08-15 19:47-0300\n"
+"Last-Translator: Reaper <JohnGrimmReaper@disroot.org>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -27,10 +28,10 @@ msgstr "默认"
 
 # Checkbox does not respect size, 32 spaces
 msgid " Auto Repeat                                "
-msgstr " 自动重复"
+msgstr " 自动重复                                  "
 
 msgid "Start Delay"
-msgstr "起始延迟"
+msgstr "首次重复延迟"
 
 msgid "Repeat Delay"
 msgstr "重复延迟"
@@ -39,7 +40,7 @@ msgid "Click Volume"
 msgstr "点击音量"
 
 msgid "Key Binding Set    "
-msgstr "键绑定集   "
+msgstr "快捷键方案       "
 
 msgid "Apply"
 msgstr "应用"
