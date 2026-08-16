@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-08-15 18:54-0300\n"
+"PO-Revision-Date: 2026-08-15 19:24-0300\n"
 "Last-Translator: Reaper <JohnGrimmReaper@disroot.org>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -973,19 +973,19 @@ msgid "is already on the bottom of the Subpanel"
 msgstr "已在子面板底部"
 
 msgid "Action for item"
-msgstr "项目操作"
+msgstr "项目"
 
 msgid "not performed on Subpanel"
-msgstr "未在子面板上执行"
+msgstr "的操作未在子面板上执行："
 
 msgid "Errors found in"
-msgstr "发现错误于"
+msgstr "错误日志："
 
 msgid "Confirm Entry Deletion"
 msgstr "确认删除条目"
 
 msgid "Delete item"
-msgstr "删除项目"
+msgstr "是否删除项目"
 
 msgid "from the subpanel"
 msgstr "从子面板"
@@ -1557,3 +1557,70 @@ msgstr "正在将配置备份到：%s"
 #, python-format
 msgid "Saving configuration to: %s"
 msgstr "正在将配置保存到：%s"
+
+# Runtime launcher diagnostics
+msgid "Error: HOME is not set."
+msgstr "错误：未设置 HOME。"
+
+msgid "Error: cannot find a suitable FvwmCommand for this setup."
+msgstr "错误：找不到适用于当前配置的 FvwmCommand。"
+
+#, c-format
+msgid "Error: none of fvwm, fvwm2, or fvwm3 was found in %s, and FVWM_BIN is not set. Exiting."
+msgstr "错误：在 %s 中找不到 fvwm、fvwm2 或 fvwm3，且未设置 FVWM_BIN。正在退出。"
+
+#, c-format
+msgid "Notice: %s does not exist."
+msgstr "注意：%s 不存在。"
+
+#, c-format
+msgid "Notice: %s is already preloaded; skipping it."
+msgstr "注意：%s 已预加载；将跳过。"
+
+#, c-format
+msgid "NsCDE Version %s"
+msgstr "NsCDE 版本 %s"
+
+#, c-format
+msgid "Warning: DPI value %s is not a valid X DPI specification; using 96 instead."
+msgstr "警告：DPI 值“%s”不是有效的 X DPI 规范；将改用 96。"
+
+#, c-format
+msgid "Warning: cannot read %s."
+msgstr "警告：无法读取 %s。"
+
+#, c-format
+msgid "Warning: directory %s was not found."
+msgstr "警告：找不到目录 %s。"
+
+#, c-format
+msgid "Warning: xrdb or cpp was not found in %s; %s will not be processed."
+msgstr "警告：在 %s 中找不到 xrdb 或 cpp；将不会处理 %s。"
+
+# Notifier titles and dynamic messages
+msgid "Front Panel Info"
+msgstr "前面板信息"
+
+msgid "Powersave Style Manager"
+msgstr "节能样式管理器"
+
+msgid "Subpanel Properties"
+msgstr "子面板属性"
+
+msgid "System Action"
+msgstr "系统操作"
+
+msgid "Unexpected output while setting the icon:"
+msgstr "设置图标时出现意外输出："
+
+msgid "Error from backdropmgr:"
+msgstr "backdropmgr 返回错误："
+
+msgid "Move To Logical Screen:"
+msgstr "移至逻辑屏幕："
+
+msgid "&Move All Windows To This Screen"
+msgstr "将所有窗口移至此屏幕(&M)"
+
+msgid "Catalog of NsCDE internal docs in this installation is missing."
+msgstr "此安装中缺少 NsCDE 内部文档索引。"
