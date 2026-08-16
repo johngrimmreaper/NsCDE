@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2021-11-08 09:35+0100\n"
-"PO-Revision-Date: 2026-08-15 18:32-0300\n"
+"PO-Revision-Date: 2026-08-15 19:47-0300\n"
 "Last-Translator: Reaper <JohnGrimmReaper@disroot.org>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -34,13 +34,13 @@ msgid "It appears that you have ~/.NsCDE profile from NsCDE 1.x installation."
 msgstr "您似乎拥有来自 NsCDE 1.x 安装的 ~/.NsCDE 配置文件。"
 
 msgid "This migration script is here to convert your old profile to match"
-msgstr "此迁移脚本用于将您的旧配置文件转换为匹配"
+msgstr "此迁移脚本会将您的旧配置文件转换为符合"
 
 msgid "new file names and paths of NsCDE 2.x."
-msgstr "NsCDE 2.x 的新文件名和路径。"
+msgstr "NsCDE 2.x 新文件名和路径的格式。"
 
 msgid "This migration script wants to perform the following actions:"
-msgstr "此迁移脚本希望执行以下操作："
+msgstr "此迁移脚本将执行以下操作："
 
 msgid "* Backup your existing ~/.NsCDE into ~/dot_NsCDE_dd_mm_YY_HH_MM_SS.tar"
 msgstr "* 将您现有的 ~/.NsCDE 备份到 ~/dot_NsCDE_dd_mm_YY_HH_MM_SS.tar"
@@ -55,16 +55,16 @@ msgid "* Rename NsCDE-XYZ.local into XYZ.fvwmlocal in ~/.NsCDE"
 msgstr "* 将 ~/.NsCDE 中的 NsCDE-XYZ.local 重命名为 XYZ.fvwmlocal"
 
 msgid "* Examine regular configrations and scripts in ~/.NsCDE and replace"
-msgstr "* 检查 ~/.NsCDE 中的常规配置和脚本并替换"
+msgstr "* 检查 ~/.NsCDE 中的常规配置和脚本，将"
 
 msgid "  old names and paths to their new pathnames."
-msgstr "  旧名称和路径为新路径名。"
+msgstr "  旧名称和路径替换为新的路径名。"
 
 msgid "* Restart NsCDE in normal mode."
 msgstr "* 以正常模式重启 NsCDE。"
 
 msgid "Choose 1, 2 or 3: "
-msgstr "选择 1、2 或 3："
+msgstr "请选择 1、2 或 3："
 
 msgid "Skip Once"
 msgstr "跳过一次"
@@ -122,7 +122,7 @@ msgid "ATTENTION:"
 msgstr "注意："
 
 msgid "If you have used NsCDE CSS styling for Firefox and/or Thunderbird,"
-msgstr "如果您曾为 Firefox 和/或 Thunderbird 启用 NsCDE CSS 样式，"
+msgstr "如果您曾为 Firefox 和/或 Thunderbird 使用 NsCDE CSS 样式，"
 
 msgid "you will have to either fix manually new symlink and @import paths"
 msgstr "则需要手动修复新的符号链接和 @import 路径；它们"
@@ -140,7 +140,7 @@ msgid "Color Style Manager with the choosen color scheme to recreate NsCDE"
 msgstr "颜色样式管理器，使用选定的配色方案重新创建 NsCDE"
 
 msgid "CSS customizations for this Mozilla applications."
-msgstr "针对这些 Mozilla 应用程序的 CSS 自定义内容。"
+msgstr "针对这些 Mozilla 应用程序的 CSS 自定义设置。"
 
 msgid "Press return to restart NsCDE with migrated profile."
 msgstr "按回车键使用迁移后的配置文件重启 NsCDE。"
@@ -156,7 +156,7 @@ msgid "Error: cannot change directory to"
 msgstr "错误：无法切换到目录："
 
 msgid "Error: ised script wrapper not found. Check if $NSCDE_TOOLSDIR is set."
-msgstr "错误：找不到 ised 脚本包装器。检查是否已设置 $NSCDE_TOOLSDIR。"
+msgstr "错误：找不到 ised 脚本包装器。请检查是否已设置 $NSCDE_TOOLSDIR。"
 
 msgid "Error: your "
 msgstr "错误：您的 "
