@@ -4,12 +4,13 @@
 # Licence: GPLv3
 #
 # SPDX-FileCopyrightText: 2026 Wenyin Root <ruojiner@hotmail.com>
+# SPDX-FileCopyrightText: 2026 Reaper <JohnGrimmReaper@disroot.org>
 msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-04-05 16:03+0800\n"
-"Last-Translator: Wenyin Root <ruojiner@hotmail.com>\n"
+"PO-Revision-Date: 2026-08-15 19:47-0300\n"
+"Last-Translator: Reaper <JohnGrimmReaper@disroot.org>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +51,7 @@ msgid "Virtual Memory (Swap):"
 msgstr "虚拟内存 (Swap)："
 
 msgid "Virtual Memory in Use:"
-msgstr "已用虚拟内存："
+msgstr "已使用虚拟内存："
 
 msgid "Operating System:"
 msgstr "操作系统："
@@ -68,4 +69,4 @@ msgid "Available"
 msgstr "可用"
 
 msgid "Dismiss"
-msgstr "取消"
+msgstr "关闭"

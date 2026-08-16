@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NsCDE\n"
 "POT-Creation-Date: 2020-03-15 09:35+0100\n"
-"PO-Revision-Date: 2026-08-15 19:24-0300\n"
+"PO-Revision-Date: 2026-08-15 19:47-0300\n"
 "Last-Translator: Reaper <JohnGrimmReaper@disroot.org>\n"
 "Language-Team: WenYin Community\n"
 "Language: zh_CN\n"
@@ -33,7 +33,7 @@ msgid "Quick Menu"
 msgstr "快捷菜单"
 
 msgid "E&xecute ..."
-msgstr "执行(&x) ..."
+msgstr "执行(&X) ..."
 
 msgid "File Manager"
 msgstr "文件管理器"
@@ -97,13 +97,13 @@ msgid "Using Menus"
 msgstr "使用菜单"
 
 msgid "GUI Tools"
-msgstr "GUI 工具"
+msgstr "图形界面工具"
 
 msgid "Backdrops Palettes Fonts"
-msgstr "背景 调色板 字体"
+msgstr "背景、色板和字体"
 
 msgid "Key & Mouse Bindings"
-msgstr "键盘和鼠标绑定"
+msgstr "快捷键与鼠标绑定"
 
 msgid "Mozilla Integration"
 msgstr "Mozilla 集成"
@@ -140,7 +140,7 @@ msgid "NsCDE P&rocess Manager"
 msgstr "NsCDE 进程管理器(&r)"
 
 msgid "&Watch Errors"
-msgstr "监视错误(&W)"
+msgstr "查看错误(&W)"
 
 msgid "FVWM3 Log Management"
 msgstr "FVWM3 日志管理"
@@ -164,7 +164,7 @@ msgid "Fvwm Diagnostic Console"
 msgstr "Fvwm 诊断控制台"
 
 msgid "Watch Errors"
-msgstr "监视错误"
+msgstr "查看错误"
 
 # Window Options Menu
 msgid "Window Options"
@@ -189,10 +189,10 @@ msgid "Raise or &Lower"
 msgstr "提升或降低(&L)"
 
 msgid "&Iconify"
-msgstr "图标化(&I)"
+msgstr "最小化(&I)"
 
 msgid "(De)&Iconify"
-msgstr "(取消)图标化(&I)"
+msgstr "最小化/还原(&I)"
 
 msgid "S&hade"
 msgstr "卷起(&h)"
@@ -207,7 +207,7 @@ msgid "Ma&ximize/Restore"
 msgstr "最大化/恢复(&x)"
 
 msgid "(Un)Stre&tch"
-msgstr "(取消)拉伸(&t)"
+msgstr "拉伸/还原(&T)"
 
 msgid "&Shade"
 msgstr "卷起(&S)"
@@ -234,10 +234,10 @@ msgid "&Occupy Monitor..."
 msgstr "占用显示器(&O)..."
 
 msgid "&Occupy All"
-msgstr "占用所有(&O)"
+msgstr "全部占用(&O)"
 
 msgid "&Unoccupy All"
-msgstr "取消占用所有(&U)"
+msgstr "全部取消占用(&U)"
 
 msgid "&Occupy All Workspaces"
 msgstr "占用所有工作区(&O)"
@@ -246,10 +246,10 @@ msgid "&Occupy All Pages"
 msgstr "占用所有页面(&O)"
 
 msgid "&Unoccupy All Workspaces"
-msgstr "仅占用此工作区(&U)"
+msgstr "取消占用所有工作区(&U)"
 
 msgid "&Unoccupy All Pages"
-msgstr "仅占用此页面(&U)"
+msgstr "取消占用所有页面(&U)"
 
 msgid "Move To Screen ..."
 msgstr "移动到显示器 ..."
@@ -261,7 +261,7 @@ msgid "Standard Menu ..."
 msgstr "标准菜单 ..."
 
 msgid "Title &Bar On/Off"
-msgstr "标题栏 开/关(&B)"
+msgstr "标题栏开/关(&B)"
 
 msgid "&Center Window"
 msgstr "居中窗口(&C)"
@@ -279,7 +279,7 @@ msgid "&Forcefully Close"
 msgstr "强制关闭(&F)"
 
 msgid "Save &Geometry ..."
-msgstr "保存几何(&G) ..."
+msgstr "保存几何信息(&G) ..."
 
 msgid "Re&position"
 msgstr "重新定位(&e)"
@@ -301,16 +301,16 @@ msgid "X Window Property Display"
 msgstr "X 窗口属性显示"
 
 msgid "Screenshot (With WM decorations)"
-msgstr "截图 (带窗口管理器装饰)"
+msgstr "截图（含窗口管理器装饰）"
 
 msgid "Screenshot (Without WM decorations)"
-msgstr "截图 (不带窗口管理器装饰)"
+msgstr "截图（不含窗口管理器装饰）"
 
 msgid "Screenshot to Clipboard (With WM decorations)"
-msgstr "截图到剪贴板 (带窗口管理器装饰)"
+msgstr "截图到剪贴板（含窗口管理器装饰）"
 
 msgid "Screenshot to Clipboard (Without WM decorations)"
-msgstr "截图到剪贴板 (不带窗口管理器装饰)"
+msgstr "截图到剪贴板（不含窗口管理器装饰）"
 
 # Menu m_GoToPage
 msgid "Go to Page ..."
@@ -328,10 +328,10 @@ msgstr "X 图标属性显示"
 
 # Menu m_IconOps
 msgid "De&iconify"
-msgstr "取消图标化(&i)"
+msgstr "还原(&I)"
 
 msgid "Deiconify On Page ..."
-msgstr "在页面上取消图标化 ..."
+msgstr "在页面上还原 ..."
 
 # Window Layers Menu
 msgid "Stays on Layer"
@@ -371,7 +371,7 @@ msgstr "子面板设置"
 
 # FpLite contextual menu
 msgid "Busy"
-msgstr "忙碌"
+msgstr "繁忙"
 
 msgid "&Details"
 msgstr "详情(&D)"
@@ -399,7 +399,7 @@ msgid "Turn &off Monitor"
 msgstr "关闭显示器(&o)"
 
 msgid "(Disabled)"
-msgstr "(已禁用)"
+msgstr "（已禁用）"
 
 msgid "Read &Man Page"
 msgstr "阅读手册页(&M)"
@@ -454,22 +454,22 @@ msgstr "清理/恢复工作区"
 
 # Misc
 msgid "Move To Page"
-msgstr "移动到页面"
+msgstr "移至页面"
 
 msgid "Move To Workspace"
-msgstr "移动到工作区"
+msgstr "移至工作区"
 
 msgid "Screenshot Options"
 msgstr "截图选项"
 
 msgid "Screenshot (3s delay)"
-msgstr "截图 (3 秒延迟)"
+msgstr "截图（3 秒延迟）"
 
 msgid "Selected Area Screenshot"
 msgstr "选定区域截图"
 
 msgid "Screenshot to Clipboard (3s delay)"
-msgstr "截图到剪贴板 (3 秒延迟)"
+msgstr "截图到剪贴板（3 秒延迟）"
 
 msgid "Selected Area Screenshot to Clipboard"
 msgstr "选定区域截图到剪贴板"
@@ -482,10 +482,10 @@ msgid "Move Down"
 msgstr "下移"
 
 msgid "Move to Beginning"
-msgstr "移到开头"
+msgstr "移至开头"
 
 msgid "Move to End"
-msgstr "移到末尾"
+msgstr "移至末尾"
 
 msgid "Copy to Main Panel"
 msgstr "复制到主面板"
@@ -497,7 +497,7 @@ msgid "Rename"
 msgstr "重命名"
 
 msgid "Rename Subpanel Item"
-msgstr "重命名子面板项目"
+msgstr "重命名子面板项"
 
 msgid "Help"
 msgstr "帮助"
@@ -519,13 +519,13 @@ msgid "Add Subpanel"
 msgstr "添加子面板"
 
 msgid "Move Button To The End"
-msgstr "将按钮移到最后"
+msgstr "将按钮移至末尾"
 
 msgid "Move Button Left"
 msgstr "将按钮左移"
 
 msgid "Move Button At The Beginning"
-msgstr "将按钮移到开头"
+msgstr "将按钮移至开头"
 
 msgid "Move Button Right"
 msgstr "将按钮右移"
@@ -598,7 +598,7 @@ msgid "is not supported by NsCDE"
 msgstr "不受 NsCDE 支持"
 
 msgid "(FVWM 2.6.7 is the oldest supported and tested version)."
-msgstr "(FVWM 2.6.7 是最老的支持和测试版本)。"
+msgstr "（FVWM 2.6.7 是受支持并经过测试的最旧版本）。"
 
 msgid ""
 "Functional problems, misbehaviour and unpredictable behaviour can be expected "
@@ -615,7 +615,7 @@ msgstr "设置对话框错误"
 msgid ""
 "Error: Cannot continue with initial setup without xterm program. Aborting acti"
 "on."
-msgstr "错误：没有 xterm 程序无法继续初始设置。中止操作。"
+msgstr "错误：没有 xterm 程序便无法继续初始设置。正在中止操作。"
 
 msgid "Check Mail Function"
 msgstr "检查邮件功能"
@@ -670,7 +670,7 @@ msgid "Screensaver Error"
 msgstr "屏幕保护程序错误"
 
 msgid "App Finder"
-msgstr "应用程序查找器"
+msgstr "应用查找器"
 
 msgid "Dismiss"
 msgstr "关闭"
@@ -691,13 +691,13 @@ msgid "automatic default: cannot find any usable application."
 msgstr "定义自动默认应用程序：找不到可用的应用程序。"
 
 msgid "Cannot find any usable application of type"
-msgstr "找不到可用的应用程序，类型为"
+msgstr "找不到以下类型的任何可用应用程序："
 
 msgid "Edit your ~/NsCDE/NsCDE.conf and set some value for"
 msgstr "请编辑 ~/NsCDE/NsCDE.conf，并为以下项目设置值："
 
 msgid "or try to install some utility or application of that type."
-msgstr "或尝试安装该类型的实用程序或应用程序。"
+msgstr "或尝试安装该类型的工具或应用程序。"
 
 msgid "Error: Func:f_NoApp:"
 msgstr "错误：Func:f_NoApp："
@@ -711,7 +711,7 @@ msgstr "电源样式管理器错误"
 msgid ""
 "Error: Incompatible xset(1) tool detected or there is no DPMS functionality on"
 " this display."
-msgstr "错误：检测到不兼容的 xset(1) 工具，或此显示器没有 DPMS 功能。"
+msgstr "错误：检测到不兼容的 xset(1) 工具，或此显示器上没有 DPMS 功能。"
 
 msgid "Standby time cannot be bigger than Suspend time."
 msgstr "待机时间不能大于挂起时间。"
@@ -750,7 +750,7 @@ msgid " not (yet) supported."
 msgstr " 的会话管理器尚不支持。"
 
 msgid "Wrong option number passed to System Action Dialog. Exiting."
-msgstr "传递给系统操作对话框的选项号错误。退出。"
+msgstr "传递给系统操作对话框的选项编号错误。正在退出。"
 
 msgid "Suspend/Sleep appears not to be supported on this system."
 msgstr "此系统似乎不支持挂起/睡眠。"
@@ -768,7 +768,7 @@ msgid "has errors in declaration. Edit"
 msgstr "声明中有错误。编辑"
 
 msgid "to fix it and then rerun this tool."
-msgstr "以修复它，然后重新运行此工具。"
+msgstr "以修复问题，然后重新运行此工具。"
 
 msgid "Unexpected output from generate_subpanels command: "
 msgstr "generate_subpanels 命令的意外输出："
@@ -777,13 +777,13 @@ msgid "Subpanel Manager"
 msgstr "子面板管理器"
 
 msgid "Application name cannot contain , or ' chars."
-msgstr "应用程序名称不能包含 , 或 ' 字符。"
+msgstr "应用程序名称不能包含逗号或单引号字符。"
 
 msgid "Application icon name cannot contain , or ' chars."
-msgstr "应用程序图标名称不能包含 , 或 ' 字符。"
+msgstr "应用程序图标名称不能包含逗号或单引号字符。"
 
 msgid "Application command line cannot contain , or ' chars."
-msgstr "应用程序命令行不能包含 , 或 ' 字符。"
+msgstr "应用程序命令行不能包含逗号或单引号字符。"
 
 msgid "Backdrop Style Manager"
 msgstr "背景样式管理器"
@@ -798,7 +798,7 @@ msgstr ""
 "删除该静态文件。所在目录："
 
 msgid "Selected file is not a valid X Pixmap for Backdrop."
-msgstr "所选文件不是有效的 X 位图背景。"
+msgstr "所选文件不是有效的背景 X Pixmap 文件。"
 
 msgid ""
 "Selected file does not appear to be in the suitable image format for setting d"
@@ -822,11 +822,11 @@ msgstr ""
 msgid ""
 "Default number of colors is not defined. Setting default number of colors to 8"
 "."
-msgstr "未定义默认颜色数。将默认颜色数设置为 8。"
+msgstr "未定义默认颜色数量。将默认颜色数量设置为 8。"
 
 msgid ""
 "Select one of the base colors of the current palette which you want to modify."
-msgstr "选择要修改的当前调色板的基色之一。"
+msgstr "请选择当前色板中要修改的一种基色。"
 
 msgid "Error renaming"
 msgstr "无法将"
@@ -838,7 +838,7 @@ msgid "Selected file"
 msgstr "所选文件"
 
 msgid "is not a valid CDE/NsCDE Palette file."
-msgstr "不是有效的 CDE/NsCDE 调色板文件。"
+msgstr "不是有效的 CDE/NsCDE 色板文件。"
 
 msgid "Workspaces and Pages Style Manager Warning"
 msgstr "工作区和页面样式管理器警告"
@@ -846,7 +846,7 @@ msgstr "工作区和页面样式管理器警告"
 msgid ""
 "Warning: Number of Workspaces and/or number of Pages are not set. Using 4 as d"
 "efault."
-msgstr "警告：未设置工作区数量和/或页面数量。使用 4 作为默认值。"
+msgstr "警告：未设置工作区数量和/或页面数量。默认使用 4。"
 
 msgid "Copy Error"
 msgstr "复制错误"
@@ -869,19 +869,19 @@ msgstr "截图功能错误"
 msgid ""
 "Error: Func:f_ScreenShot: No import(1) or xwd(1) for making a screenshot found"
 " in PATH"
-msgstr "错误：Func:f_ScreenShot：在 PATH 中找不到用于截图的 import(1) 或 xwd(1)"
+msgstr "错误：Func:f_ScreenShot：在 PATH 中未找到用于截图的 import(1) 或 xwd(1)"
 
 msgid "XwinInfo Function Error"
 msgstr "XwinInfo 功能错误"
 
 msgid "Error: Func:f_XwinInfo: No xwininfo(1) tool found in PATH"
-msgstr "错误：Func:f_XwinInfo：在 PATH 中找不到 xwininfo(1) 工具"
+msgstr "错误：Func:f_XwinInfo：在 PATH 中未找到 xwininfo(1) 工具"
 
 msgid "X Prop Function Error"
 msgstr "X Prop 功能错误"
 
 msgid "Error: Func:f_Xprop: No xprop(1) tool found in PATH"
-msgstr "错误：Func:f_Xprop：在 PATH 中找不到 xprop(1) 工具"
+msgstr "错误：Func:f_Xprop：在 PATH 中未找到 xprop(1) 工具"
 
 msgid "Root Screenshot Function Error"
 msgstr "根窗口截图功能错误"
@@ -889,26 +889,22 @@ msgstr "根窗口截图功能错误"
 msgid ""
 "Error: Func:f_RootScreenShot: No import(1) or xwd(1) for making a root window "
 "screenshot found in PATH"
-msgstr "错误：Func:f_RootScreenShot：在 PATH 中找不到用于根窗口截图的 import(1) 或 xwd(1)"
+msgstr "错误：Func:f_RootScreenShot：在 PATH 中未找到用于根窗口截图的 import(1) 或 xwd(1)"
 
 msgid ""
 "Error: Func:f_AreaScreenShot: No import(1) ImageMagick command found for makin"
 "g screen area screenshot. PATH:"
-msgstr "错误：Func:f_AreaScreenShot：找不到用于屏幕区域截图的 ImageMagick 命令 import(1)。PATH："
+msgstr "错误：Func:f_AreaScreenShot：未找到用于区域截图的 ImageMagick import(1) 命令。PATH："
 
 msgid ""
 "Error: Func:f_ClipboardRootScreenShot: No import(1) ImageMagick command found "
 "for making root window screenshot into clipboard. PATH:"
-msgstr ""
-"错误：Func:f_ClipboardRootScreenShot：找不到用于将根窗口截图到剪贴板的 ImageMagick 命令 import(1)。PA"
-"TH："
+msgstr "错误：Func:f_ClipboardRootScreenShot：未找到用于将根窗口截图复制到剪贴板的 ImageMagick import(1) 命令。PATH："
 
 msgid ""
 "Error: Func:f_ClipboardAreaScreenShot: No import(1) ImageMagick command found "
 "for making screen area screenshot into clipboard. PATH:"
-msgstr ""
-"错误：Func:f_ClipboardAreaScreenShot：找不到用于将屏幕区域截图到剪贴板的 ImageMagick 命令 import(1)。P"
-"ATH："
+msgstr "错误：Func:f_ClipboardAreaScreenShot：未找到用于将区域截图复制到剪贴板的 ImageMagick import(1) 命令。PATH："
 
 msgid "Font Style Manager"
 msgstr "字体样式管理器"
@@ -938,12 +934,12 @@ msgstr "无法编辑"
 # msgid "Error creating"
 # msgstr "Greška prilikom stvaranja"
 msgid "Fontset name must be defined before saving it!"
-msgstr "保存字体集之前必须定义字体集名称！"
+msgstr "保存前必须定义字体集名称！"
 
 msgid ""
 "Not all applications have the ability to dynamically change their font. Such a"
 "pplications may have to be restarted for effect to take place."
-msgstr "并非所有应用程序都能够动态更改其字体。此类应用程序可能需要重新启动才能生效。"
+msgstr "并非所有应用程序都支持动态更改字体。此类应用程序可能需要重新启动才能生效。"
 
 msgid "Error occured while calling Color Selector:"
 msgstr "调用颜色选择器时发生错误："
@@ -1021,11 +1017,11 @@ msgid "Error deleting geometry values:"
 msgstr "删除几何值时出错："
 
 msgid "New Front Panel Button"
-msgstr "新前面板按钮"
+msgstr "新建前面板按钮"
 
 # Input Form
 msgid "Enter Fontset Name:"
-msgstr "输入字体集名称："
+msgstr "请输入字体集名称："
 
 msgid "OK"
 msgstr "确定"
@@ -1037,11 +1033,11 @@ msgid "User Input Required"
 msgstr "需要用户输入"
 
 msgid "New Palette Name?"
-msgstr "新调色板名称？"
+msgstr "新色板名称？"
 
 # Action Form
 msgid "Restart NsCDE After This Changes?"
-msgstr "在此更改后重启 NsCDE？"
+msgstr "更改后是否重启 NsCDE？"
 
 msgid "Delete Backdrop"
 msgstr "删除背景"
@@ -1050,27 +1046,27 @@ msgid "Delete Picture"
 msgstr "删除图片"
 
 msgid "Delete Palette"
-msgstr "删除调色板"
+msgstr "删除色板"
 
 # Choice Form
 msgid "User Action Required"
 msgstr "需要用户操作"
 
 msgid "Do you want to restart NsCDE with new font properties now?"
-msgstr "是否要立即使用新字体属性重启 NsCDE？"
+msgstr "是否立即使用新字体属性重启 NsCDE？"
 
 # Wait Notice
 msgid "Working ..."
-msgstr "工作中 ..."
+msgstr "处理中 ..."
 
 msgid "Please wait for changes to be applied"
-msgstr "请等待更改被应用"
+msgstr "请等待更改生效"
 
 msgid "and new color theme loaded."
-msgstr "并加载新的颜色主题。"
+msgstr "并加载新颜色主题。"
 
 msgid "and new font scheme loaded."
-msgstr "并加载新的字体方案。"
+msgstr "并加载新字体方案。"
 
 msgid "Logging out"
 msgstr "正在注销"
@@ -1092,7 +1088,7 @@ msgid "NsCDE Process Manager"
 msgstr "NsCDE 进程管理器"
 
 msgid "Sending Link to"
-msgstr "发送链接到"
+msgstr "发送链接至"
 
 msgid "Front Panel Help"
 msgstr "前面板帮助"
@@ -1107,10 +1103,10 @@ msgid "GUI Tools Help"
 msgstr "GUI 工具帮助"
 
 msgid "Backdrops Palettes and Fonts Help"
-msgstr "背景调色板和字体帮助"
+msgstr "背景、色板和字体帮助"
 
 msgid "Key Bindings Help"
-msgstr "键绑定帮助"
+msgstr "快捷键帮助"
 
 msgid "Mouse Bindings Help"
 msgstr "鼠标绑定帮助"
@@ -1128,7 +1124,7 @@ msgid "NsCDE X Integrations"
 msgstr "NsCDE X 集成"
 
 msgid "Lite Help"
-msgstr "指示灯帮助"
+msgstr "精简版帮助"
 
 msgid "Exit Help"
 msgstr "退出帮助"
@@ -1161,7 +1157,7 @@ msgid "Occupy Page"
 msgstr "占用页面"
 
 msgid "Beep Style Manager"
-msgstr "蜂鸣样式管理器"
+msgstr "提示音样式管理器"
 
 msgid "Window Style Manager"
 msgstr "窗口样式管理器"
@@ -1171,9 +1167,7 @@ msgid ""
 "mgen which is produced by the Window Style Manager. In order to use animations"
 " set by Window Style Manager, static file Animate.fvwmconf must be removed fro"
 "m directory"
-msgstr ""
-"存在静态文件 Animate.fvwmconf，将读取它而不是窗口样式管理器生成的常规 Animate.fvwmgen。要使用窗口样式管理器设置的动画，必须"
-"从目录中删除静态文件 Animate.fvwmconf"
+msgstr "存在静态文件 Animate.fvwmconf，将读取它而不是窗口样式管理器生成的常规 Animate.fvwmgen。要使用窗口样式管理器设置的动画，必须删除静态文件 Animate.fvwmconf。所在目录："
 
 msgid "Power Style Manager"
 msgstr "电源样式管理器"
@@ -1379,21 +1373,21 @@ msgstr "NsCDE 版本的颜色集更改"
 msgid ""
 "requires current color scheme to be re-applied for Front Panel to display prop"
 "erly."
-msgstr "需要重新应用当前颜色方案，以便前面板正确显示。"
+msgstr "需要重新应用当前配色方案，以便前面板正确显示。"
 
 msgid "Please use Color Style Manager to select and confirm your color scheme."
-msgstr "请使用颜色样式管理器选择并确认您的颜色方案"
+msgstr "请使用颜色样式管理器选择并确认配色方案。"
 
 # GWM title
 msgid "GWM Key Bindings"
-msgstr "GWM 键绑定"
+msgstr "GWM 快捷键"
 
 # WSM Notice
 msgid "Front Panel Information"
 msgstr "前面板信息"
 
 msgid "Press"
-msgstr "按"
+msgstr "请按"
 
 msgid "to finish rename action"
 msgstr "完成重命名操作"
@@ -1456,7 +1450,7 @@ msgid "Documentation"
 msgstr "文档"
 
 msgid "Default Key and Mouse Bindings"
-msgstr "默认键盘和鼠标绑定"
+msgstr "默认快捷键与鼠标绑定"
 
 msgid "&Full Screen"
 msgstr "全屏(&F)"
@@ -1480,16 +1474,16 @@ msgid "FVWM is already running."
 msgstr "FVWM 已在运行。"
 
 msgid "Style Manager Key Bindings"
-msgstr "样式管理器键绑定"
+msgstr "样式管理器快捷键"
 
 msgid "Front Panel Icon Manager"
 msgstr "前面板图标管理器"
 
 msgid "Error: Func:f_ClipboardAreaScreenShot: No xclip(1) command found for making screen area screenshot into clipboard. PATH:"
-msgstr "错误：Func:f_ClipboardAreaScreenShot：找不到用于将区域截图复制到剪贴板的 xclip(1) 命令。PATH："
+msgstr "错误：Func:f_ClipboardAreaScreenShot：未找到用于将区域截图复制到剪贴板的 xclip(1) 命令。PATH："
 
 msgid "Error: Func:f_ClipboardRootScreenShot: No xclip(1) command found for making root window screenshot into clipboard. PATH:"
-msgstr "错误：Func:f_ClipboardRootScreenShot：找不到用于将根窗口截图复制到剪贴板的 xclip(1) 命令。PATH："
+msgstr "错误：Func:f_ClipboardRootScreenShot：未找到用于将根窗口截图复制到剪贴板的 xclip(1) 命令。PATH："
 
 # Splash screen
 msgid "running on"
