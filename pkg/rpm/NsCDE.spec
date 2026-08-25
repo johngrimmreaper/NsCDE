@@ -148,8 +148,7 @@ find . -name Makefile.in -exec touch {} +
 
 
 %install
-build_ksh="$(command -v ksh93 || command -v ksh)"
-%make_install KSH="$build_ksh"
+%make_install KSH=%{_bindir}/ksh
 
 # Keep architecture-independent library content under /usr/lib so the data
 # subpackage can be noarch. Move the three ELF artifacts into RPM's native
