@@ -3,6 +3,10 @@ Version:        2.3
 Release:        3%{?dist}
 Summary:        Not so Common Desktop Environment
 
+# Locales listed here are split out of the common data package into
+# translation-only langpacks. Add new upstream locales here as they appear.
+%global nscde_langpacks hr
+
 License:        GPL-3.0-only
 URL:            https://github.com/NsCDE/NsCDE
 Source0:        %{url}/releases/download/%{version}/%{name}-%{version}.tar.gz
@@ -107,7 +111,28 @@ Requires:       python3-yaml
 %description data
 This package contains architecture-independent files used by NsCDE,
 including FVWM configuration, palettes, backdrops, templates, integration
-files, localization files, Korn shell and Python helpers, and FvwmScripts.
+files, Korn shell and Python helpers, and FvwmScripts. Locale-specific
+gettext catalogs are shipped separately in NsCDE language packs.
+
+
+# Keep translation packages independent of a particular input-method stack.
+# Locale-specific support can add weak dependencies for alternative frameworks
+# such as IBus or Fcitx5 without forcing one input method on every NsCDE user.
+%define lang_subpkg() \
+%package langpack-%{1}\
+Summary:        %{2} translations for %{name}\
+BuildArch:      noarch\
+Requires:       %{name} = %{version}-%{release}\
+%{?fedora:Supplements:    (%{name} = %{version}-%{release} and langpacks-%{1})}\
+\
+%description langpack-%{1}\
+%{2} translations for %{name}.\
+\
+%files langpack-%{1} -f %{name}-langpack-%{1}.lang\
+%license COPYING\
+%{nil}
+
+%lang_subpkg hr Croatian
 
 
 %package icon-theme
@@ -195,6 +220,18 @@ rm -f %{buildroot}%{_docdir}/%{name}/LICENSE
 
 %find_lang %{name} --all-name
 
+# Build one file manifest per configured langpack and leave all remaining
+# locale entries in the common data manifest. Adding a future locale requires
+# only extending nscde_langpacks and declaring its lang_subpkg above.
+cp %{name}.lang %{name}-data.lang
+for locale in %{nscde_langpacks}; do
+    grep -F "/${locale}/" %{name}.lang > "%{name}-langpack-${locale}.lang"
+    test -s "%{name}-langpack-${locale}.lang"
+    grep -Fv "/${locale}/" %{name}-data.lang > "%{name}-data.lang.tmp" || \
+        test ! -s "%{name}-data.lang.tmp"
+    mv "%{name}-data.lang.tmp" %{name}-data.lang
+done
+
 
 %check
 test -x %{buildroot}%{_libdir}/%{name}/%{_arch}/XOverrideFontCursor.so
@@ -226,7 +263,7 @@ test -z "$(find %{buildroot} -path '*/Linux_*/*' -print -quit)"
 %{_libexecdir}/%{name}/fpclock
 %{_prefix}/lib/%{name}/fvwm-modules/FvwmScript
 
-%files data -f %{name}.lang
+%files data -f %{name}-data.lang
 %license COPYING
 %config(noreplace) %{_sysconfdir}/xdg/menus/nscde-applications.menu
 %{_datadir}/desktop-directories/nscde-*.directory
@@ -253,6 +290,7 @@ test -z "$(find %{buildroot} -path '*/Linux_*/*' -print -quit)"
 - Keep only native helpers, their dispatchers, and launchers in the main package
 - Relocate ELF artifacts to deterministic RPM architecture paths
 - Normalize Python module permissions and modernize package metadata
+- Prepare locale-specific language packs with Fedora weak-dependency integration
 
 * Fri Jun 16 2023 Hegel3DReloaded <nscde@protonmail.com>  - 2.3-3
 - Portability and bug fixes
