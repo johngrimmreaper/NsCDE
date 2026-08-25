@@ -1,0 +1,140 @@
+name: Package Fedora 44
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: package-fedora-44-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build RPM on Fedora 44
+    runs-on: ubuntu-24.04
+    container:
+      image: fedora:44
+
+    steps:
+      - name: Bootstrap container
+        run: |
+          set -euxo pipefail
+          dnf -y install ca-certificates git
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Show build environment
+        run: |
+          set -euxo pipefail
+          cat /etc/os-release
+          uname -a
+          rpm --eval '%{_arch}'
+          printf 'Commit: %s\n' "$GITHUB_SHA"
+
+      - name: Refresh Fedora repositories
+        run: |
+          set -euxo pipefail
+          dnf -y makecache
+          dnf repolist
+
+      - name: Install RPM build tooling
+        run: |
+          set -euxo pipefail
+          dnf -y install dnf5-plugins rpm-build rpmdevtools
+          rpm --version
+          rpmbuild --version
+          spectool --version || true
+
+      - name: Inspect RPM packaging metadata
+        run: |
+          set -euxo pipefail
+          test -f pkg/rpm/NsCDE.spec
+          rpmspec -q --qf 'Name: %{NAME}\nVersion: %{VERSION}\nRelease: %{RELEASE}\nArch: %{ARCH}\n' pkg/rpm/NsCDE.spec
+          printf '\nDeclared sources:\n'
+          spectool -S pkg/rpm/NsCDE.spec
+          printf '\nDeclared build requirements:\n'
+          rpmspec -q --buildrequires pkg/rpm/NsCDE.spec | sort -u
+
+      - name: Install spec BuildRequires
+        run: |
+          set -euxo pipefail
+          dnf -y builddep pkg/rpm/NsCDE.spec
+
+      - name: Fetch sources declared by spec
+        run: |
+          set -euxo pipefail
+          rpmdev-setuptree
+          spectool -g -R pkg/rpm/NsCDE.spec
+          find "$HOME/rpmbuild/SOURCES" -maxdepth 1 -type f -printf '%f\n' | sort
+
+      - name: Build binary and source RPMs
+        run: |
+          set -euxo pipefail
+          rpmbuild -ba pkg/rpm/NsCDE.spec
+
+      - name: Collect and inspect RPM artifacts
+        run: |
+          set -euxo pipefail
+          mkdir -p out
+          find "$HOME/rpmbuild/RPMS" "$HOME/rpmbuild/SRPMS" \
+            -type f -name '*.rpm' -exec cp -v '{}' out/ ';'
+          test -n "$(find out -maxdepth 1 -type f -name '*.rpm' -print -quit)"
+          printf '\nGenerated RPMs:\n'
+          for package in out/*.rpm; do
+            rpm -qp --qf '%{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}\n' "$package"
+          done
+
+      - name: Upload RPM artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: nscde-fedora-44-${{ github.sha }}
+          path: out/*.rpm
+          if-no-files-found: error
+          retention-days: 30
+
+  install-test:
+    name: Install RPM on clean Fedora 44
+    needs: build
+    runs-on: ubuntu-24.04
+    container:
+      image: fedora:44
+
+    steps:
+      - name: Bootstrap container
+        run: |
+          set -euxo pipefail
+          dnf -y install ca-certificates
+
+      - name: Download RPM artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: nscde-fedora-44-${{ github.sha }}
+          path: artifacts
+
+      - name: Refresh Fedora repositories
+        run: |
+          set -euxo pipefail
+          dnf -y makecache
+          dnf repolist
+
+      - name: Install generated binary RPMs
+        run: |
+          set -euxo pipefail
+          mapfile -t packages < <(find artifacts -type f -name '*.rpm' ! -name '*.src.rpm' -print | sort)
+          test "${#packages[@]}" -gt 0
+          printf 'Installing:\n%s\n' "${packages[@]}"
+          dnf -y install "${packages[@]}"
+
+      - name: Verify installed package
+        run: |
+          set -euxo pipefail
+          rpm -q NsCDE
+          rpm -V NsCDE
+          dnf -y check
