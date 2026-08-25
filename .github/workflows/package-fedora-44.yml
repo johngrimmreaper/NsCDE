@@ -7,6 +7,14 @@ on:
 permissions:
   contents: read
 
+env:
+  TARGET_REPOSITORY: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name || github.repository }}
+  TARGET_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
+defaults:
+  run:
+    shell: bash
+
 concurrency:
   group: package-fedora-44-${{ github.ref }}
   cancel-in-progress: true
@@ -17,6 +25,7 @@ jobs:
     runs-on: ubuntu-24.04
     container:
       image: fedora:44
+    timeout-minutes: 60
 
     steps:
       - name: Bootstrap container
@@ -28,15 +37,23 @@ jobs:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          repository: ${{ env.TARGET_REPOSITORY }}
+          ref: ${{ env.TARGET_SHA }}
+          fetch-depth: 1
           persist-credentials: false
 
-      - name: Show build environment
+      - name: Show build environment and verify checkout
         run: |
           set -euxo pipefail
           cat /etc/os-release
           uname -a
           rpm --eval '%{_arch}'
-          printf 'Commit: %s\n' "$GITHUB_SHA"
+          checked_out_sha="$(git rev-parse HEAD)"
+          printf 'Workflow SHA: %s\n' "$GITHUB_SHA"
+          printf 'Target repository: %s\n' "$TARGET_REPOSITORY"
+          printf 'Target SHA: %s\n' "$TARGET_SHA"
+          printf 'Checked-out SHA: %s\n' "$checked_out_sha"
+          test "$checked_out_sha" = "$TARGET_SHA"
 
       - name: Refresh Fedora repositories
         run: |
@@ -50,7 +67,7 @@ jobs:
           dnf -y install dnf5-plugins rpm-build rpmdevtools
           rpm --version
           rpmbuild --version
-          spectool --version || true
+          command -v spectool
 
       - name: Inspect RPM packaging metadata
         run: |
@@ -67,16 +84,59 @@ jobs:
           set -euxo pipefail
           dnf -y builddep pkg/rpm/NsCDE.spec
 
-      - name: Fetch sources declared by spec
+      - name: Create RPM source archive from checked-out commit
         run: |
           set -euxo pipefail
           rpmdev-setuptree
-          spectool -g -R pkg/rpm/NsCDE.spec
-          find "$HOME/rpmbuild/SOURCES" -maxdepth 1 -type f -printf '%f\n' | sort
+
+          source_url="$(spectool -S pkg/rpm/NsCDE.spec | awk '$1 == "Source0:" { print $2; exit }')"
+          source_file="${source_url##*/}"
+
+          test -n "$source_url"
+          test -n "$source_file"
+
+          case "$source_file" in
+            *.tar.gz) ;;
+            *)
+              printf 'ERROR: unsupported Source0 archive: %s\n' "$source_file" >&2
+              exit 1
+              ;;
+          esac
+
+          archive_root="${source_file%.tar.gz}"
+          test -n "$archive_root"
+
+          printf 'Packaging checked-out commit: %s\n' "$(git rev-parse HEAD)"
+          printf 'Spec Source0 remains: %s\n' "$source_url"
+          printf 'Local archive root: %s/\n' "$archive_root"
+          printf 'Creating local source: %s\n' "$HOME/rpmbuild/SOURCES/$source_file"
+
+          git archive \
+            --format=tar.gz \
+            --prefix="${archive_root}/" \
+            HEAD \
+            > "$HOME/rpmbuild/SOURCES/$source_file"
+
+          test -s "$HOME/rpmbuild/SOURCES/$source_file"
+          sha256sum "$HOME/rpmbuild/SOURCES/$source_file"
+          tar -tzf "$HOME/rpmbuild/SOURCES/$source_file" | \
+            awk -F/ -v root="$archive_root" '$1 != root { exit 1 }'
+          tar -tzf "$HOME/rpmbuild/SOURCES/$source_file" | sed -n '1,20p'
 
       - name: Build binary and source RPMs
         run: |
           set -euxo pipefail
+          export PATH=/usr/bin:/bin:/usr/sbin:/sbin
+          printf 'RPM build PATH: %s\n' "$PATH"
+          for command_name in python3 ksh93 ksh; do
+            if command -v "$command_name" >/dev/null 2>&1; then
+              command_path="$(command -v "$command_name")"
+              printf '%s -> %s\n' "$command_name" "$command_path"
+              type -a "$command_name" || true
+              ls -l "$command_path"
+              rpm -qf "$command_path" || true
+            fi
+          done
           rpmbuild -ba pkg/rpm/NsCDE.spec
 
       - name: Collect and inspect RPM artifacts
@@ -85,16 +145,25 @@ jobs:
           mkdir -p out
           find "$HOME/rpmbuild/RPMS" "$HOME/rpmbuild/SRPMS" \
             -type f -name '*.rpm' -exec cp -v '{}' out/ ';'
-          test -n "$(find out -maxdepth 1 -type f -name '*.rpm' -print -quit)"
+          test -n "$(find out -maxdepth 1 -type f -name '*.rpm' ! -name '*.src.rpm' -print -quit)"
+          test -n "$(find out -maxdepth 1 -type f -name '*.src.rpm' -print -quit)"
           printf '\nGenerated RPMs:\n'
           for package in out/*.rpm; do
             rpm -qp --qf '%{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}\n' "$package"
+          done
+          printf '\nGenerated binary RPM requirements:\n'
+          for package in out/*.rpm; do
+            case "$package" in
+              *.src.rpm) continue ;;
+            esac
+            printf '\n%s:\n' "$package"
+            rpm -qp --requires "$package" | sort -u
           done
 
       - name: Upload RPM artifacts
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: nscde-fedora-44-${{ github.sha }}
+          name: nscde-fedora-44-${{ env.TARGET_SHA }}
           path: out/*.rpm
           if-no-files-found: error
           retention-days: 30
@@ -105,6 +174,7 @@ jobs:
     runs-on: ubuntu-24.04
     container:
       image: fedora:44
+    timeout-minutes: 60
 
     steps:
       - name: Bootstrap container
@@ -115,7 +185,7 @@ jobs:
       - name: Download RPM artifacts
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          name: nscde-fedora-44-${{ github.sha }}
+          name: nscde-fedora-44-${{ env.TARGET_SHA }}
           path: artifacts
 
       - name: Refresh Fedora repositories
@@ -130,11 +200,19 @@ jobs:
           mapfile -t packages < <(find artifacts -type f -name '*.rpm' ! -name '*.src.rpm' -print | sort)
           test "${#packages[@]}" -gt 0
           printf 'Installing:\n%s\n' "${packages[@]}"
-          dnf -y install "${packages[@]}"
+          dnf -y --setopt=optional_metadata_types=filelists install "${packages[@]}"
 
-      - name: Verify installed package
+      - name: Verify installed packages
         run: |
           set -euxo pipefail
+          mapfile -t package_names < <(
+            find artifacts -type f -name '*.rpm' ! -name '*.src.rpm' \
+              -exec rpm -qp --qf '%{NAME}\n' '{}' ';' | sort -u
+          )
+          test "${#package_names[@]}" -gt 0
+          for package_name in "${package_names[@]}"; do
+            rpm -q "$package_name"
+            rpm -V "$package_name"
+          done
           rpm -q NsCDE
-          rpm -V NsCDE
           dnf -y check
