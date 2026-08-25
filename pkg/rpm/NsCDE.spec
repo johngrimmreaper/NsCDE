@@ -1,17 +1,24 @@
-Name:           NsCDE
-Version:        2.3
-Release:        3%{?dist}
-Summary:        Not so Common Desktop Environment
+# Upstream master is the development line for NsCDE 2.4.  Until 2.4 is
+# released, build an immutable snapshot of the exact upstream Git commit.
+%global commit cbad197534dd357a15856f08140f16cacd87803b
+%global shortcommit cbad197
+%global snapshot_date 20260705
 
-# Locales listed here are split out of the common data package into
-# translation-only langpacks. Add new upstream locales here as they appear.
+# Every installed gettext locale must have an explicit language package.
+# Keep package declarations below readable; this list is only used to split
+# the installed locale manifests and to reject accidentally unassigned locales.
 %global nscde_langpacks hr
 
+Name:           NsCDE
+Version:        2.4
+Release:        0.1.%{snapshot_date}git%{shortcommit}%{?dist}
+Summary:        Not so Common Desktop Environment
 License:        GPL-3.0-only
 URL:            https://github.com/NsCDE/NsCDE
-Source0:        %{url}/releases/download/%{version}/%{name}-%{version}.tar.gz
+Source0:        %{url}/archive/%{commit}/%{name}-%{commit}.tar.gz
 
 BuildRequires:  gcc
+BuildRequires:  gawk
 BuildRequires:  ksh
 BuildRequires:  make
 BuildRequires:  pkgconfig(x11)
@@ -115,24 +122,18 @@ files, Korn shell and Python helpers, and FvwmScripts. Locale-specific
 gettext catalogs are shipped separately in NsCDE language packs.
 
 
-# Keep translation packages independent of a particular input-method stack.
-# Locale-specific support can add weak dependencies for alternative frameworks
-# such as IBus or Fcitx5 without forcing one input method on every NsCDE user.
-%define lang_subpkg() \
-%package langpack-%{1}\
-Summary:        %{2} translations for %{name}\
-BuildArch:      noarch\
-Requires:       %{name} = %{version}-%{release}\
-%{?fedora:Supplements:    (%{name} = %{version}-%{release} and langpacks-%{1})}\
-\
-%description langpack-%{1}\
-%{2} translations for %{name}.\
-\
-%files langpack-%{1} -f %{name}-langpack-%{1}.lang\
-%license COPYING\
-%{nil}
+# Translation catalogs are independent of input-method frameworks.  Do not
+# make this package select IBus, Fcitx, fonts, or other locale input stacks.
+%package langpack-hr
+Summary:        Croatian translations for %{name}
+BuildArch:      noarch
+Requires:       %{name} = %{version}-%{release}
+%if 0%{?fedora}
+Supplements:    (%{name} = %{version}-%{release} and langpacks-hr)
+%endif
 
-%lang_subpkg hr Croatian
+%description langpack-hr
+Croatian gettext translations for NsCDE.
 
 
 %package icon-theme
@@ -155,7 +156,7 @@ HTML, plain-text, and PDF documentation for NsCDE.
 
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name}-%{commit}
 
 
 %build
@@ -165,8 +166,8 @@ HTML, plain-text, and PDF documentation for NsCDE.
     --with-python-shebang=%{_bindir}/python3 \
     KSH=%{_bindir}/ksh
 
-# Release tarballs contain generated Autotools files. Keep make from trying
-# to regenerate them merely because archive extraction equalized timestamps.
+# Upstream tracks generated Autotools files.  Keep make from trying to
+# regenerate them merely because GitHub archive extraction equalized mtimes.
 touch aclocal.m4 configure
 find . -name Makefile.in -exec touch {} +
 %make_build
@@ -218,19 +219,25 @@ chmod 0644 %{buildroot}%{_libexecdir}/%{name}/style_managers.shlib
 # the standard per-subpackage license directories instead.
 rm -f %{buildroot}%{_docdir}/%{name}/LICENSE
 
+# Discover every installed gettext catalog first, then split only locales that
+# have explicit subpackages.  An unexpected new upstream locale deliberately
+# fails the build instead of silently falling back into NsCDE-data.
 %find_lang %{name} --all-name
-
-# Build one file manifest per configured langpack and leave all remaining
-# locale entries in the common data manifest. Adding a future locale requires
-# only extending nscde_langpacks and declaring its lang_subpkg above.
-cp %{name}.lang %{name}-data.lang
+cp %{name}.lang %{name}-unassigned.lang
 for locale in %{nscde_langpacks}; do
-    grep -F "/${locale}/" %{name}.lang > "%{name}-langpack-${locale}.lang"
-    test -s "%{name}-langpack-${locale}.lang"
-    grep -Fv "/${locale}/" %{name}-data.lang > "%{name}-data.lang.tmp" || \
-        test ! -s "%{name}-data.lang.tmp"
-    mv "%{name}-data.lang.tmp" %{name}-data.lang
+    manifest="%{name}-langpack-${locale}.lang"
+    grep -F "/${locale}/" %{name}.lang > "$manifest"
+    test -s "$manifest"
+    awk -v needle="/${locale}/" 'index($0, needle) == 0' \
+        %{name}-unassigned.lang > %{name}-unassigned.lang.tmp
+    mv %{name}-unassigned.lang.tmp %{name}-unassigned.lang
 done
+
+test ! -s %{name}-unassigned.lang || {
+    echo 'ERROR: installed gettext catalogs have no explicit NsCDE langpack:' >&2
+    cat %{name}-unassigned.lang >&2
+    exit 1
+}
 
 
 %check
@@ -244,6 +251,8 @@ grep -Fq '${NSCDE_TOOLSDIR}/%{_arch}/fpclock' \
 grep -Fq '%{_libdir}/%{name}/%{_arch}/XOverrideFontCursor.so' \
     %{buildroot}%{_prefix}/lib/%{name}/fvwm-modules/FvwmScript
 test -z "$(find %{buildroot} -path '*/Linux_*/*' -print -quit)"
+test -s %{name}-langpack-hr.lang
+grep -Fq '/hr/' %{name}-langpack-hr.lang
 
 
 %files
@@ -263,7 +272,7 @@ test -z "$(find %{buildroot} -path '*/Linux_*/*' -print -quit)"
 %{_libexecdir}/%{name}/fpclock
 %{_prefix}/lib/%{name}/fvwm-modules/FvwmScript
 
-%files data -f %{name}-data.lang
+%files data
 %license COPYING
 %config(noreplace) %{_sysconfdir}/xdg/menus/nscde-applications.menu
 %{_datadir}/desktop-directories/nscde-*.directory
@@ -276,6 +285,9 @@ test -z "$(find %{buildroot} -path '*/Linux_*/*' -print -quit)"
 %exclude %{_libexecdir}/%{name}/colorpicker
 %exclude %{_libexecdir}/%{name}/fpclock
 
+%files langpack-hr -f %{name}-langpack-hr.lang
+%license COPYING
+
 %files icon-theme
 %license COPYING
 %{_datadir}/icons/%{name}/
@@ -285,12 +297,13 @@ test -z "$(find %{buildroot} -path '*/Linux_*/*' -print -quit)"
 %doc %{_docdir}/%{name}/
 
 %changelog
-* Sun Aug 16 2026 John Grim Reaper <JohnGrimmReaper@disroot.org> - 2.3-UNRELEASED
+* Tue Aug 25 2026 John Grim Reaper <JohnGrimmReaper@disroot.org> - 2.4-0.1.20260705gitcbad197
+- Package an immutable upstream 2.4 development snapshot
 - Split architecture-independent data, icon theme, and documentation packages
 - Keep only native helpers, their dispatchers, and launchers in the main package
 - Relocate ELF artifacts to deterministic RPM architecture paths
 - Normalize Python module permissions and modernize package metadata
-- Prepare locale-specific language packs with Fedora weak-dependency integration
+- Add an explicit Croatian translation langpack as the generic locale model
 
 * Fri Jun 16 2023 Hegel3DReloaded <nscde@protonmail.com>  - 2.3-3
 - Portability and bug fixes
