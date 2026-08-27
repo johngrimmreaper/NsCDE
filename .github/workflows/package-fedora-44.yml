@@ -3,6 +3,7 @@ name: Package Fedora 44
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -10,14 +11,11 @@ permissions:
 env:
   TARGET_REPOSITORY: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name || github.repository }}
   TARGET_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+  TARGET_REF: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref_name }}
 
 defaults:
   run:
     shell: bash
-
-concurrency:
-  group: package-fedora-44-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   build:
@@ -34,100 +32,171 @@ jobs:
           dnf -y install ca-certificates git
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
-      - name: Check out source
+      - name: Check out exact source revision
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: ${{ env.TARGET_REPOSITORY }}
           ref: ${{ env.TARGET_SHA }}
-          fetch-depth: 1
+          fetch-depth: 0
           persist-credentials: false
 
-      - name: Show build environment and verify checkout
+      - name: Record build provenance
         run: |
           set -euxo pipefail
-          cat /etc/os-release
-          uname -a
-          rpm --eval '%{_arch}'
+          mkdir -p out/evidence
           checked_out_sha="$(git rev-parse HEAD)"
-          printf 'Workflow SHA: %s\n' "$GITHUB_SHA"
-          printf 'Target repository: %s\n' "$TARGET_REPOSITORY"
-          printf 'Target SHA: %s\n' "$TARGET_SHA"
-          printf 'Checked-out SHA: %s\n' "$checked_out_sha"
           test "$checked_out_sha" = "$TARGET_SHA"
+
+          cat /etc/os-release | tee out/evidence/os-release.txt
+          uname -a | tee out/evidence/uname.txt
+          rpm --eval '%{_arch}' | tee out/evidence/rpm-arch.txt
+          git status --short --branch | tee out/evidence/git-status.txt
+          git show -s --format='commit=%H%ncommit_timestamp=%ct%ncommit_date=%cI%nauthor=%an <%ae>%nsubject=%s' "$TARGET_SHA" \
+            | tee out/evidence/git-commit.txt
+          printf 'event=%s\nrepository=%s\nref=%s\ntarget_sha=%s\ngithub_sha=%s\n' \
+            "$GITHUB_EVENT_NAME" "$TARGET_REPOSITORY" "$TARGET_REF" "$TARGET_SHA" "$GITHUB_SHA" \
+            | tee out/evidence/workflow-source.txt
 
       - name: Refresh Fedora repositories
         run: |
           set -euxo pipefail
           dnf -y makecache
-          dnf repolist
+          dnf repolist | tee out/evidence/enabled-repositories.txt
+
+          if dnf repolist --enabled | grep -qi reaper; then
+            printf 'ERROR: Fedora CI must not use an EL Reaper repository.\n' >&2
+            exit 1
+          fi
 
       - name: Install RPM build tooling
         run: |
           set -euxo pipefail
-          dnf -y install dnf5-plugins rpm-build rpmdevtools
+          dnf -y install dnf5-plugins rpm-build rpmdevtools rpmlint
           rpm --version
           rpmbuild --version
+          rpmlint --version
           command -v spectool
 
-      - name: Inspect RPM packaging metadata
+      - name: Prepare CI spec for exact checkout
         run: |
           set -euxo pipefail
           test -f pkg/rpm/NsCDE.spec
-          rpmspec -q --qf 'Name: %{NAME}\nVersion: %{VERSION}\nRelease: %{RELEASE}\nArch: %{ARCH}\n' pkg/rpm/NsCDE.spec
-          printf '\nDeclared sources:\n'
-          spectool -S pkg/rpm/NsCDE.spec
-          printf '\nDeclared build requirements:\n'
-          rpmspec -q --buildrequires pkg/rpm/NsCDE.spec | sort -u
-
-      - name: Install spec BuildRequires
-        run: |
-          set -euxo pipefail
-          dnf -y builddep pkg/rpm/NsCDE.spec
-
-      - name: Create RPM source archive from checked-out commit
-        run: |
-          set -euxo pipefail
           rpmdev-setuptree
 
-          source_url="$(spectool -S pkg/rpm/NsCDE.spec | awk '$1 == "Source0:" { print $2; exit }')"
-          source_file="${source_url##*/}"
-
-          test -n "$source_url"
-          test -n "$source_file"
-
-          case "$source_file" in
-            *.tar.gz) ;;
+          canonical_source="$(spectool -S pkg/rpm/NsCDE.spec | awk '$1 == "Source0:" { print $2; exit }')"
+          test -n "$canonical_source"
+          printf 'Canonical checked-in Source0: %s\n' "$canonical_source" \
+            | tee out/evidence/canonical-source0.txt
+          case "$canonical_source" in
+            https://github.com/NsCDE/NsCDE/archive/*) ;;
             *)
-              printf 'ERROR: unsupported Source0 archive: %s\n' "$source_file" >&2
+              printf 'ERROR: checked-in Source0 is no longer the canonical upstream GitHub archive URL: %s\n' "$canonical_source" >&2
               exit 1
               ;;
           esac
 
+          spec="$HOME/rpmbuild/SPECS/NsCDE.spec"
+          cp -v pkg/rpm/NsCDE.spec "$spec"
+
+          short_sha="${TARGET_SHA:0:7}"
+          commit_epoch="$(git show -s --format=%ct "$TARGET_SHA")"
+          snapshot_date="$(date -u -d "@$commit_epoch" +%Y%m%d)"
+
+          sed -i -E \
+            -e "s|^%global commit[[:space:]]+.*$|%global commit ${TARGET_SHA}|" \
+            -e "s|^%global shortcommit[[:space:]]+.*$|%global shortcommit ${short_sha}|" \
+            -e "s|^%global snapshot_date[[:space:]]+.*$|%global snapshot_date ${snapshot_date}|" \
+            -e "s|^Source0:.*$|Source0: https://github.com/${TARGET_REPOSITORY}/archive/%{commit}/%{name}-%{commit}.tar.gz|" \
+            "$spec"
+
+          cp -v "$spec" out/evidence/NsCDE.ci.spec
+          git diff --exit-code -- pkg/rpm/NsCDE.spec
+
+          expanded_source="$(spectool -S "$spec" | awk '$1 == "Source0:" { print $2; exit }')"
+          expanded_release="$(rpmspec -q --qf '%{RELEASE}\n' "$spec" | head -n1)"
+          printf 'CI Source0: %s\nCI Release: %s\n' "$expanded_source" "$expanded_release" \
+            | tee out/evidence/ci-spec-provenance.txt
+
+          case "$expanded_source" in
+            "https://github.com/${TARGET_REPOSITORY}/archive/${TARGET_SHA}/NsCDE-${TARGET_SHA}.tar.gz") ;;
+            *)
+              printf 'ERROR: CI Source0 does not identify the exact target repository and SHA: %s\n' "$expanded_source" >&2
+              exit 1
+              ;;
+          esac
+          case "$expanded_release" in
+            "0.1.${snapshot_date}git${short_sha}."*) ;;
+            *)
+              printf 'ERROR: CI Release does not identify the exact target SHA/date: %s\n' "$expanded_release" >&2
+              exit 1
+              ;;
+          esac
+
+      - name: Inspect RPM packaging metadata
+        run: |
+          set -euxo pipefail
+          spec="$HOME/rpmbuild/SPECS/NsCDE.spec"
+          rpmspec -q --qf 'Name: %{NAME}\nVersion: %{VERSION}\nRelease: %{RELEASE}\nArch: %{ARCH}\n' "$spec" \
+            | tee out/evidence/spec-packages.txt
+          printf '\nDeclared sources:\n'
+          spectool -S "$spec" | tee out/evidence/spec-sources.txt
+          printf '\nDeclared build requirements:\n'
+          rpmspec -q --buildrequires "$spec" | sort -u | tee out/evidence/buildrequires.txt
+
+      - name: Inspect Fedora dependency provenance
+        run: |
+          set -euxo pipefail
+          for dependency in fvwm xlockmore; do
+            printf '\nAvailable Fedora candidates for %s:\n' "$dependency"
+            dnf -q repoquery --qf '%{name}|%{version}-%{release}|%{arch}|%{repoid}' "$dependency" \
+              | tee "out/evidence/${dependency}-candidates.txt"
+            test -s "out/evidence/${dependency}-candidates.txt"
+            if grep -qi reaper "out/evidence/${dependency}-candidates.txt"; then
+              printf 'ERROR: %s unexpectedly resolves from a Reaper repository on Fedora.\n' "$dependency" >&2
+              exit 1
+            fi
+          done
+
+      - name: Install spec BuildRequires
+        run: |
+          set -euxo pipefail
+          dnf -y builddep "$HOME/rpmbuild/SPECS/NsCDE.spec"
+
+      - name: Create deterministic source archive from exact checkout
+        run: |
+          set -euxo pipefail
+          spec="$HOME/rpmbuild/SPECS/NsCDE.spec"
+          source_url="$(spectool -S "$spec" | awk '$1 == "Source0:" { print $2; exit }')"
+          source_file="${source_url##*/}"
+          expected_file="NsCDE-${TARGET_SHA}.tar.gz"
+
+          test "$source_file" = "$expected_file"
           archive_root="${source_file%.tar.gz}"
-          test -n "$archive_root"
+          test "$archive_root" = "NsCDE-${TARGET_SHA}"
 
-          printf 'Packaging checked-out commit: %s\n' "$(git rev-parse HEAD)"
-          printf 'Spec Source0 remains: %s\n' "$source_url"
-          printf 'Local archive root: %s/\n' "$archive_root"
-          printf 'Creating local source: %s\n' "$HOME/rpmbuild/SOURCES/$source_file"
+          printf 'Packaging repository: %s\n' "$TARGET_REPOSITORY"
+          printf 'Packaging exact commit: %s\n' "$TARGET_SHA"
+          printf 'CI Source0: %s\n' "$source_url"
+          printf 'Archive root: %s/\n' "$archive_root"
 
-          git archive \
-            --format=tar.gz \
-            --prefix="${archive_root}/" \
-            HEAD \
-            > "$HOME/rpmbuild/SOURCES/$source_file"
+          git archive --format=tar --prefix="${archive_root}/" "$TARGET_SHA" \
+            | gzip -n > "$HOME/rpmbuild/SOURCES/$source_file"
 
           test -s "$HOME/rpmbuild/SOURCES/$source_file"
-          sha256sum "$HOME/rpmbuild/SOURCES/$source_file"
-          tar -tzf "$HOME/rpmbuild/SOURCES/$source_file" | \
-            awk -F/ -v root="$archive_root" '$1 != root { exit 1 }'
-          tar -tzf "$HOME/rpmbuild/SOURCES/$source_file" | sed -n '1,20p'
+          sha256sum "$HOME/rpmbuild/SOURCES/$source_file" \
+            | tee out/evidence/source-archive.sha256
+          tar -tzf "$HOME/rpmbuild/SOURCES/$source_file" \
+            | awk -F/ -v root="$archive_root" '$1 != root { bad=1 } END { exit bad }'
+          tar -tzf "$HOME/rpmbuild/SOURCES/$source_file" | sed -n '1,20p' \
+            | tee out/evidence/source-archive-head.txt
 
       - name: Build binary and source RPMs
         run: |
           set -euxo pipefail
           export PATH=/usr/bin:/bin:/usr/sbin:/sbin
+          export SOURCE_DATE_EPOCH="$(git show -s --format=%ct "$TARGET_SHA")"
           printf 'RPM build PATH: %s\n' "$PATH"
+          printf 'SOURCE_DATE_EPOCH: %s\n' "$SOURCE_DATE_EPOCH"
           for command_name in python3 ksh93 ksh; do
             if command -v "$command_name" >/dev/null 2>&1; then
               command_path="$(command -v "$command_name")"
@@ -137,34 +206,63 @@ jobs:
               rpm -qf "$command_path" || true
             fi
           done
-          rpmbuild -ba pkg/rpm/NsCDE.spec
+          rpmbuild -ba "$HOME/rpmbuild/SPECS/NsCDE.spec"
 
       - name: Collect and inspect RPM artifacts
         run: |
           set -euxo pipefail
-          mkdir -p out
           find "$HOME/rpmbuild/RPMS" "$HOME/rpmbuild/SRPMS" \
             -type f -name '*.rpm' -exec cp -v '{}' out/ ';'
-          test -n "$(find out -maxdepth 1 -type f -name '*.rpm' ! -name '*.src.rpm' -print -quit)"
-          test -n "$(find out -maxdepth 1 -type f -name '*.src.rpm' -print -quit)"
-          printf '\nGenerated RPMs:\n'
+
+          mapfile -t binaries < <(find out -maxdepth 1 -type f -name '*.rpm' ! -name '*.src.rpm' -print | sort)
+          mapfile -t srpms < <(find out -maxdepth 1 -type f -name '*.src.rpm' -print | sort)
+          test "${#binaries[@]}" -gt 0
+          test "${#srpms[@]}" -eq 1
+
+          printf 'Generated RPMs:\n' | tee out/evidence/rpm-nevra.txt
           for package in out/*.rpm; do
-            rpm -qp --qf '%{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}\n' "$package"
-          done
-          printf '\nGenerated binary RPM requirements:\n'
-          for package in out/*.rpm; do
-            case "$package" in
-              *.src.rpm) continue ;;
-            esac
-            printf '\n%s:\n' "$package"
-            rpm -qp --requires "$package" | sort -u
+            rpm -qp --qf '%{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}\n' "$package" \
+              | tee -a out/evidence/rpm-nevra.txt
           done
 
-      - name: Upload RPM artifacts
+          short_sha="${TARGET_SHA:0:7}"
+          commit_epoch="$(git show -s --format=%ct "$TARGET_SHA")"
+          snapshot_date="$(date -u -d "@$commit_epoch" +%Y%m%d)"
+          main_rpm="$(find out -maxdepth 1 -type f -name 'NsCDE-*.rpm' ! -name '*.src.rpm' ! -name 'NsCDE-*-*.noarch.rpm' -print -quit)"
+          test -n "$main_rpm"
+          main_release="$(rpm -qp --qf '%{RELEASE}' "$main_rpm")"
+          case "$main_release" in
+            "0.1.${snapshot_date}git${short_sha}."*) ;;
+            *)
+              printf 'ERROR: built RPM release does not identify target SHA/date: %s\n' "$main_release" >&2
+              exit 1
+              ;;
+          esac
+
+          printf '\nGenerated binary RPM requirements:\n' | tee out/evidence/binary-requires.txt
+          for package in "${binaries[@]}"; do
+            printf '\n%s:\n' "$package" | tee -a out/evidence/binary-requires.txt
+            rpm -qp --requires "$package" | sort -u | tee -a out/evidence/binary-requires.txt
+          done
+
+          printf '\nSRPM metadata:\n'
+          rpm -qpi "${srpms[0]}" | tee out/evidence/srpm-info.txt
+          sha256sum out/*.rpm | tee out/evidence/rpm-artifacts.sha256
+
+      - name: Run rpmlint
+        run: |
+          set -euxo pipefail
+          rpmlint "$HOME/rpmbuild/SPECS/NsCDE.spec" out/*.rpm \
+            | tee out/evidence/rpmlint.txt
+
+      - name: Upload RPM artifacts and evidence
+        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: nscde-fedora-44-${{ env.TARGET_SHA }}
-          path: out/*.rpm
+          path: |
+            out/*.rpm
+            out/evidence/**
           if-no-files-found: error
           retention-days: 30
 
@@ -188,21 +286,44 @@ jobs:
           name: nscde-fedora-44-${{ env.TARGET_SHA }}
           path: artifacts
 
-      - name: Refresh Fedora repositories
+      - name: Verify source provenance evidence
         run: |
           set -euxo pipefail
-          dnf -y makecache
-          dnf repolist
+          test -f artifacts/evidence/workflow-source.txt
+          grep -Fx "repository=${TARGET_REPOSITORY}" artifacts/evidence/workflow-source.txt
+          grep -Fx "target_sha=${TARGET_SHA}" artifacts/evidence/workflow-source.txt
 
-      - name: Install generated binary RPMs
+      - name: Refresh Fedora repositories and inspect dependencies
+        run: |
+          set -euxo pipefail
+          mkdir -p runtime-evidence
+          dnf -y makecache
+          dnf repolist | tee runtime-evidence/enabled-repositories.txt
+
+          if dnf repolist --enabled | grep -qi reaper; then
+            printf 'ERROR: Fedora runtime test must not use an EL Reaper repository.\n' >&2
+            exit 1
+          fi
+
+          for dependency in fvwm xlockmore; do
+            dnf -q repoquery --qf '%{name}|%{version}-%{release}|%{arch}|%{repoid}' "$dependency" \
+              | tee "runtime-evidence/${dependency}-candidates.txt"
+            test -s "runtime-evidence/${dependency}-candidates.txt"
+            if grep -qi reaper "runtime-evidence/${dependency}-candidates.txt"; then
+              printf 'ERROR: %s unexpectedly resolves from a Reaper repository on Fedora.\n' "$dependency" >&2
+              exit 1
+            fi
+          done
+
+      - name: Install generated binary RPMs with DNF
         run: |
           set -euxo pipefail
           mapfile -t packages < <(find artifacts -type f -name '*.rpm' ! -name '*.src.rpm' -print | sort)
           test "${#packages[@]}" -gt 0
-          printf 'Installing:\n%s\n' "${packages[@]}"
+          printf 'Installing local CI RPMs:\n%s\n' "${packages[@]}"
           dnf -y --setopt=optional_metadata_types=filelists install "${packages[@]}"
 
-      - name: Verify installed packages
+      - name: Verify installed packages and dependency provenance
         run: |
           set -euxo pipefail
           mapfile -t package_names < <(
@@ -214,5 +335,27 @@ jobs:
             rpm -q "$package_name"
             rpm -V "$package_name"
           done
-          rpm -q NsCDE
+
+          short_sha="${TARGET_SHA:0:7}"
+          nscde_release="$(rpm -q --qf '%{RELEASE}' NsCDE)"
+          case "$nscde_release" in
+            *"git${short_sha}"*) ;;
+            *)
+              printf 'ERROR: installed NsCDE does not identify target SHA %s: %s\n' "$TARGET_SHA" "$nscde_release" >&2
+              exit 1
+              ;;
+          esac
+
+          rpm -q fvwm xlockmore
+          dnf -q repoquery --installed --qf '%{name}|%{version}-%{release}|%{arch}|%{repoid}' fvwm xlockmore \
+            | tee runtime-evidence/installed-window-manager-dependencies.txt
           dnf -y check
+
+      - name: Upload runtime evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: nscde-fedora-44-runtime-${{ env.TARGET_SHA }}
+          path: runtime-evidence/**
+          if-no-files-found: warn
+          retention-days: 30
