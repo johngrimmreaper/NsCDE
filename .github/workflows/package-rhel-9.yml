@@ -37,7 +37,7 @@ jobs:
       - name: Bootstrap container
         run: |
           set -euxo pipefail
-          dnf -y install ca-certificates curl git
+          dnf -y install ca-certificates curl-minimal git
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - name: Check out exact source revision
@@ -204,7 +204,7 @@ jobs:
               | tee "out/evidence/${dependency}-reaper-candidates.txt"
 
             test -s "out/evidence/${dependency}-reaper-candidates.txt"
-            awk -F'|' -v repo="$REAPER_REPO_ID" 'NF != 5 || $5 != repo { bad=1 } END { exit bad }' \
+            awk -F'|' -v repo="$REAPER_REPO_ID" 'NF != 4 || $4 != repo { bad=1 } END { exit bad }' \
               "out/evidence/${dependency}-reaper-candidates.txt"
           done
 
@@ -340,7 +340,7 @@ jobs:
           cat /etc/os-release | tee runtime-evidence/os-release.txt
           grep -E '^[[:space:]]*tsflags=' /etc/dnf/dnf.conf \
             | tee runtime-evidence/dnf-container-tsflags.txt || true
-          dnf -y install ca-certificates curl dnf-plugins-core epel-release \
+          dnf -y install ca-certificates curl-minimal dnf-plugins-core epel-release \
             2>&1 | tee runtime-evidence/repository-bootstrap.log
           dnf config-manager --set-enabled crb \
             2>&1 | tee runtime-evidence/enable-crb.log
@@ -406,7 +406,7 @@ jobs:
               | LC_ALL=C sort \
               | tee "runtime-evidence/${dependency}-reaper-candidates.txt"
             test -s "runtime-evidence/${dependency}-reaper-candidates.txt"
-            awk -F'|' -v repo="$REAPER_REPO_ID" 'NF != 5 || $5 != repo { bad=1 } END { exit bad }' \
+            awk -F'|' -v repo="$REAPER_REPO_ID" 'NF != 4 || $4 != repo { bad=1 } END { exit bad }' \
               "runtime-evidence/${dependency}-reaper-candidates.txt"
           done
 
