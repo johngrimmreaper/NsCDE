@@ -211,9 +211,18 @@ jobs:
               "out/evidence/${dependency}-reaper-candidates.txt"
           done
 
-      - name: Record EL10 runtime capability providers
+      - name: Record EL10 runtime package and capability providers
         run: |
           set -euxo pipefail
+          for package_name in xdotool xrandr xrefresh xset; do
+            printf '\nPackage-name candidates for %s:\n' "$package_name"
+            dnf -q repoquery --available \
+              --qf '%{name}|%{version}-%{release}|%{arch}|%{repoid}' \
+              "$package_name" \
+              | LC_ALL=C sort \
+              | tee "out/evidence/package-${package_name}-candidates.txt"
+          done
+
           for capability in \
             xdotool \
             /usr/bin/xrandr \
@@ -221,8 +230,9 @@ jobs:
             /usr/bin/xset
           do
             safe_name="$(printf '%s' "$capability" | sed 's#^/##; s#[^A-Za-z0-9._-]#_#g')"
-            printf '\nProviders for %s:\n' "$capability"
-            dnf -q repoquery --available --whatprovides "$capability" \
+            printf '\nProviders for %s with filelists metadata enabled:\n' "$capability"
+            dnf -q --setopt=optional_metadata_types=filelists \
+              repoquery --available --whatprovides "$capability" \
               --qf '%{name}|%{version}-%{release}|%{arch}|%{repoid}' \
               | LC_ALL=C sort \
               | tee "out/evidence/provider-${safe_name}.txt"
@@ -432,9 +442,17 @@ jobs:
               "runtime-evidence/${dependency}-reaper-candidates.txt"
           done
 
-      - name: Diagnose EL10 runtime capability providers
+      - name: Diagnose EL10 runtime package and capability providers
         run: |
           set -euxo pipefail
+          for package_name in xdotool xrandr xrefresh xset; do
+            dnf -q repoquery --available \
+              --qf '%{name}|%{version}-%{release}|%{arch}|%{repoid}' \
+              "$package_name" \
+              | LC_ALL=C sort \
+              | tee "runtime-evidence/package-${package_name}-candidates.txt"
+          done
+
           missing=0
           for capability in \
             xdotool \
@@ -443,12 +461,13 @@ jobs:
             /usr/bin/xset
           do
             safe_name="$(printf '%s' "$capability" | sed 's#^/##; s#[^A-Za-z0-9._-]#_#g')"
-            dnf -q repoquery --available --whatprovides "$capability" \
+            dnf -q --setopt=optional_metadata_types=filelists \
+              repoquery --available --whatprovides "$capability" \
               --qf '%{name}|%{version}-%{release}|%{arch}|%{repoid}' \
               | LC_ALL=C sort \
               | tee "runtime-evidence/provider-${safe_name}.txt"
             if ! test -s "runtime-evidence/provider-${safe_name}.txt"; then
-              printf 'No enabled repository currently provides %s\n' "$capability" \
+              printf 'No enabled repository currently provides %s, including after loading filelists metadata.\n' "$capability" \
                 | tee -a runtime-evidence/missing-runtime-capabilities.txt
               missing=1
             fi
@@ -463,6 +482,7 @@ jobs:
           test "${#packages[@]}" -gt 0
           printf 'Installing local CI RPMs:\n%s\n' "${packages[@]}"
           dnf -y \
+            --setopt=optional_metadata_types=filelists \
             --setopt=install_weak_deps=False \
             --setopt=tsflags= \
             install "${packages[@]}" \
