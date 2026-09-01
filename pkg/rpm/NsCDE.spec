@@ -42,6 +42,8 @@ Requires:       sed
 Requires:       xdotool
 Requires:       xdg-utils
 Requires:       xterm
+Requires:       (pcmanfm or spacefm)
+Requires:       (nedit or xedit)
 Requires:       %{_bindir}/xdpyinfo
 Requires:       %{_bindir}/xprop
 Requires:       %{_bindir}/xrandr
@@ -70,7 +72,6 @@ Recommends:     xclip
 Recommends:     xscreensaver
 Recommends:     xsettingsd
 Suggests:       gkrellm
-Suggests:       pcmanfm-qt
 Suggests:       picom
 Suggests:       qt5ct
 Suggests:       qt6ct
