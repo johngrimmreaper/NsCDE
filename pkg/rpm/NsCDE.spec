@@ -42,8 +42,8 @@ Requires:       sed
 Requires:       xdotool
 Requires:       xdg-utils
 Requires:       xterm
-Requires:       (pcmanfm or spacefm)
-Requires:       (nedit or xedit)
+Requires:       (pcmanfm or spacefm or Thunar or pcmanfm-qt or xfe or worker or gentoo)
+Requires:       (nedit or xedit or leafpad or l3afpad or mousepad or xed or pluma or featherpad or geany)
 Requires:       %{_bindir}/xdpyinfo
 Requires:       %{_bindir}/xprop
 Requires:       %{_bindir}/xrandr
