@@ -1,0 +1,533 @@
+name: NsCDE RPM CI - RHEL 10 compatible
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TARGET_REPOSITORY: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name || github.repository }}
+  TARGET_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
+concurrency:
+  group: nscde-rpm-rhel-10-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and diagnose NsCDE RPM on AlmaLinux 10
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    container:
+      image: almalinux:10
+
+    steps:
+      - name: Show pristine AlmaLinux container
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          cat /etc/os-release
+          uname -a
+          printf 'CPUs: %s\n' "$(nproc)"
+          rpm --eval '%{_arch}'
+
+      - name: Enable EL10 build repositories and install prerequisites
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          dnf -y upgrade --refresh
+          dnf -y install \
+            ca-certificates dnf-plugins-core epel-release file findutils git gzip \
+            python3 rpm-build rpmdevtools shadow-utils tar util-linux
+          dnf config-manager --set-enabled crb
+          command -v curl
+          rpm --import https://johngrimmreaper.github.io/rhel10-rpms/RPM-GPG-KEY
+          curl -fsSL \
+            https://johngrimmreaper.github.io/rhel10-rpms/repo/reaper-rhel-10-stable.repo \
+            -o /etc/yum.repos.d/reaper-rhel-10-stable.repo
+          dnf -y makecache --refresh
+          dnf repolist
+
+      - name: Check out exact NsCDE commit under test
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ env.TARGET_REPOSITORY }}
+          ref: ${{ env.TARGET_SHA }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Trust GitHub checkout mount inside AlmaLinux container
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Show NsCDE commit under test
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test "$(git rev-parse HEAD)" = "$TARGET_SHA"
+          git show --no-patch \
+            --format='commit:    %H%nauthor:    %an <%ae>%nauthor date: %aI%ncommitter: %cn <%ce>%ncommit date: %cI%nsubject:   %s' \
+            HEAD
+          git status --short --branch
+
+      - name: Simulate a fresh local Git clone for packaging
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          source_tree="$RUNNER_TEMP/nscde-code"
+          target_sha="$(git -C "$GITHUB_WORKSPACE" rev-parse HEAD)"
+          rm -rf "$source_tree"
+          git clone --no-local --no-checkout "$GITHUB_WORKSPACE" "$source_tree"
+          git -C "$source_tree" checkout --detach "$target_sha"
+          seed_tree="$(git -C "$GITHUB_WORKSPACE" rev-parse 'HEAD^{tree}')"
+          clone_tree="$(git -C "$source_tree" rev-parse 'HEAD^{tree}')"
+          printf 'CI seed tree: %s\nlocal clone:  %s\n' "$seed_tree" "$clone_tree"
+          test "$seed_tree" = "$clone_tree"
+          test -z "$(git -C "$source_tree" status --porcelain)"
+          useradd --create-home --shell /bin/bash nscdebuild
+          chown -R nscdebuild:nscdebuild "$source_tree"
+          git config --global --add safe.directory "$source_tree"
+          {
+            printf 'SOURCE_TREE=%s\n' "$source_tree"
+            echo 'RPMBUILD_TOPDIR=/home/nscdebuild/rpmbuild'
+          } >> "$GITHUB_ENV"
+
+      - name: Inspect RPM packaging metadata
+        id: rpm_metadata
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          spec="$SOURCE_TREE/pkg/rpm/NsCDE.spec"
+          test -f "$spec"
+          rpmspec -q --qf 'Name: %{NAME}\nVersion: %{VERSION}\nRelease: %{RELEASE}\nArch: %{ARCH}\n' "$spec"
+          echo '=== declared sources ==='
+          spectool -S "$spec"
+          echo '=== declared build requirements ==='
+          rpmspec -q --buildrequires "$spec" | LC_ALL=C sort -u
+          echo '=== declared runtime requirements ==='
+          rpmspec -q --requires "$spec" | LC_ALL=C sort -u
+
+      - name: Install spec BuildRequires
+        id: builddeps
+        if: ${{ steps.rpm_metadata.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          dnf -y builddep "$SOURCE_TREE/pkg/rpm/NsCDE.spec"
+
+      - name: Snapshot compiler, repositories and RPM toolchain
+        if: ${{ steps.builddeps.outcome == 'success' }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          echo '=== AlmaLinux release ==='
+          cat /etc/os-release
+          echo '=== enabled repositories ==='
+          dnf repolist
+          echo '=== compiler ==='
+          gcc --version
+          gcc -v 2>&1
+          echo '=== linker ==='
+          ld --version | head -n 2
+          echo '=== RPM/build tools ==='
+          rpm --version
+          rpmbuild --version
+          make --version | head -n 2
+          autoconf --version | head -n 2
+          automake --version | head -n 2
+          python3 --version
+          echo '=== exact core RPM versions ==='
+          rpm -q gcc glibc binutils make autoconf automake rpm-build rpmdevtools python3 ksh gettext || true
+          echo '=== resolved BuildRequires providers ==='
+          while IFS= read -r requirement; do
+            test -n "$requirement" || continue
+            printf '%s -> ' "$requirement"
+            rpm -q --whatprovides "$requirement" 2>/dev/null || echo '(provider query unavailable)'
+          done < <(rpmspec -q --buildrequires "$SOURCE_TREE/pkg/rpm/NsCDE.spec" | LC_ALL=C sort -u)
+          echo '=== relevant build variables ==='
+          printf 'CC=%s\nCXX=%s\nCPPFLAGS=%s\nCFLAGS=%s\nCXXFLAGS=%s\nLDFLAGS=%s\nPATH=%s\n' \
+            "${CC-}" "${CXX-}" "${CPPFLAGS-}" "${CFLAGS-}" "${CXXFLAGS-}" "${LDFLAGS-}" "$PATH"
+
+      - name: Verify RPM Reaper repository configuration
+        if: ${{ steps.builddeps.outcome == 'success' }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          repo=/etc/yum.repos.d/reaper-rhel-10-stable.repo
+          test -s "$repo"
+          grep -E '^baseurl=https://johngrimmreaper[.]github[.]io/rhel10-rpms/' "$repo"
+          grep -E '^enabled=1$' "$repo"
+          grep -E '^gpgcheck=1$' "$repo"
+          grep -E '^repo_gpgcheck=1$' "$repo"
+          dnf repolist | grep -F 'reaper-rhel-10-stable'
+
+      - name: Create RPM source archive from exact cloned commit
+        id: source_archive
+        if: ${{ steps.builddeps.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          spec="$SOURCE_TREE/pkg/rpm/NsCDE.spec"
+          runuser -u nscdebuild -- env HOME=/home/nscdebuild rpmdev-setuptree
+          source_url="$(spectool -S "$spec" | awk '$1 == "Source0:" { print $2; exit }')"
+          source_file="${source_url##*/}"
+          test -n "$source_url"
+          case "$source_file" in *.tar.gz) ;; *) echo "Unsupported Source0: $source_file" >&2; exit 1 ;; esac
+          archive_root="${source_file%.tar.gz}"
+          test "$(git -C "$SOURCE_TREE" rev-parse HEAD)" = "$TARGET_SHA"
+          printf 'Packaging exact commit: %s\nSpec Source0: %s\nArchive root: %s/\n' \
+            "$TARGET_SHA" "$source_url" "$archive_root"
+          git -C "$SOURCE_TREE" archive \
+            --format=tar.gz --prefix="${archive_root}/" HEAD \
+            > "$RPMBUILD_TOPDIR/SOURCES/$source_file"
+          chown nscdebuild:nscdebuild "$RPMBUILD_TOPDIR/SOURCES/$source_file"
+          test -s "$RPMBUILD_TOPDIR/SOURCES/$source_file"
+          sha256sum "$RPMBUILD_TOPDIR/SOURCES/$source_file"
+          tar -tzf "$RPMBUILD_TOPDIR/SOURCES/$source_file" | \
+            awk -F/ -v root="$archive_root" '$1 != root { exit 1 }'
+          tar -tzf "$RPMBUILD_TOPDIR/SOURCES/$source_file" | sed -n '1,20p'
+
+      - name: Build binary and source RPMs with log capture
+        id: rpm_build
+        if: ${{ steps.source_archive.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          build_path=/usr/bin:/bin:/usr/sbin:/sbin
+          printf 'RPM build PATH: %s\n' "$build_path"
+          for command_name in python3 ksh93 ksh; do
+            if command -v "$command_name" >/dev/null 2>&1; then
+              command_path="$(command -v "$command_name")"
+              printf '%s -> %s\n' "$command_name" "$command_path"
+              rpm -qf "$command_path" || true
+            fi
+          done
+          set +e
+          runuser -u nscdebuild -- env HOME=/home/nscdebuild PATH="$build_path" \
+            rpmbuild -ba --define "_topdir $RPMBUILD_TOPDIR" \
+            "$SOURCE_TREE/pkg/rpm/NsCDE.spec" \
+            2>&1 | tee "$RUNNER_TEMP/nscde-rpmbuild.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          exit "$status"
+
+      - name: Analyze NsCDE RPM build log
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          python3 "$GITHUB_WORKSPACE/.github/scripts/analyze-build-log.py" \
+            --log "$RUNNER_TEMP/nscde-rpmbuild.log" \
+            --label 'NsCDE RPM build / AlmaLinux 10' \
+            --output-dir "$RUNNER_TEMP/ci-diagnostics/build" \
+            --summary-file "$GITHUB_STEP_SUMMARY"
+
+      - name: Collect and inspect RPM artifacts
+        id: rpm_artifacts
+        if: ${{ steps.rpm_build.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/out"
+          find "$RPMBUILD_TOPDIR/RPMS" "$RPMBUILD_TOPDIR/SRPMS" \
+            -type f -name '*.rpm' -exec cp -v '{}' "$GITHUB_WORKSPACE/out/" ';'
+          test -n "$(find out -maxdepth 1 -type f -name '*.rpm' ! -name '*.src.rpm' -print -quit)"
+          test -n "$(find out -maxdepth 1 -type f -name '*.src.rpm' -print -quit)"
+          echo '=== generated RPMs ==='
+          for package in out/*.rpm; do
+            rpm -qp --qf '%{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}\n' "$package"
+            rpm -K --nosignature "$package"
+          done
+          echo '=== generated binary RPM requirements ==='
+          for package in out/*.rpm; do
+            case "$package" in *.src.rpm) continue ;; esac
+            printf '\n%s:\n' "$package"
+            rpm -qp --requires "$package" | LC_ALL=C sort -u
+          done
+
+      - name: Collect RPM build stage summary
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          {
+            echo '## AlmaLinux 10 RPM stage result'
+            echo
+            echo '| Stage | Outcome |'
+            echo '|---|---|'
+            printf '| RPM metadata | `%s` |\n' '${{ steps.rpm_metadata.outcome }}'
+            printf '| BuildRequires | `%s` |\n' '${{ steps.builddeps.outcome }}'
+            printf '| Source archive | `%s` |\n' '${{ steps.source_archive.outcome }}'
+            printf '| RPM build | `%s` |\n' '${{ steps.rpm_build.outcome }}'
+            printf '| RPM artifact inspection | `%s` |\n' '${{ steps.rpm_artifacts.outcome }}'
+            echo
+            echo 'The RPM is built from a clean detached clone of the exact CI commit by an unprivileged build user. Build logs are analyzed for root compiler/linker failures before recursive Make noise.'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload RPM artifacts
+        if: ${{ steps.rpm_artifacts.outcome == 'success' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: nscde-rhel-10-${{ env.TARGET_SHA }}
+          path: out/*.rpm
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+
+      - name: Prepare RPM diagnostic artifact bundle
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          bundle="$RUNNER_TEMP/ci-diagnostics/raw"
+          mkdir -p "$bundle"
+          test ! -f "$RUNNER_TEMP/nscde-rpmbuild.log" || cp -a "$RUNNER_TEMP/nscde-rpmbuild.log" "$bundle/"
+          test ! -f "$SOURCE_TREE/pkg/rpm/NsCDE.spec" || cp -a "$SOURCE_TREE/pkg/rpm/NsCDE.spec" "$bundle/"
+          {
+            echo '=== NsCDE commit ==='
+            git -C "$GITHUB_WORKSPACE" show --no-patch --format='%H%n%aI%n%an <%ae>%n%s' HEAD || true
+            echo '=== AlmaLinux ==='
+            cat /etc/os-release || true
+            echo '=== repositories ==='
+            dnf repolist || true
+            echo '=== compiler / RPM tools ==='
+            gcc --version || true
+            rpm --version || true
+            rpmbuild --version || true
+            echo '=== environment ==='
+            env | LC_ALL=C sort || true
+          } > "$bundle/environment.txt"
+
+      - name: Upload RPM diagnostic artifact bundle
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: nscde-rhel-10-build-diagnostics-${{ github.run_id }}
+          path: ${{ runner.temp }}/ci-diagnostics
+          if-no-files-found: warn
+          retention-days: 14
+          compression-level: 6
+
+      - name: Final RPM build diagnostic gate
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          metadata='${{ steps.rpm_metadata.outcome }}'
+          builddeps='${{ steps.builddeps.outcome }}'
+          archive='${{ steps.source_archive.outcome }}'
+          build='${{ steps.rpm_build.outcome }}'
+          artifacts='${{ steps.rpm_artifacts.outcome }}'
+          printf 'metadata=%s builddeps=%s archive=%s build=%s artifacts=%s\n' \
+            "$metadata" "$builddeps" "$archive" "$build" "$artifacts"
+          test "$metadata" = success
+          test "$builddeps" = success
+          test "$archive" = success
+          test "$build" = success
+          test "$artifacts" = success
+
+  install-test:
+    name: Install and diagnose NsCDE RPM on clean AlmaLinux 10
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    container:
+      image: almalinux:10
+
+    steps:
+      - name: Show pristine AlmaLinux runtime container
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          cat /etc/os-release
+          uname -a
+          printf 'CPUs: %s\n' "$(nproc)"
+          rpm --eval '%{_arch}'
+
+      - name: Enable EL10 runtime repositories and diagnostics
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          dnf -y upgrade --refresh
+          dnf -y install ca-certificates dnf-plugins-core epel-release file findutils
+          dnf config-manager --set-enabled crb
+          command -v curl
+          rpm --import https://johngrimmreaper.github.io/rhel10-rpms/RPM-GPG-KEY
+          curl -fsSL \
+            https://johngrimmreaper.github.io/rhel10-rpms/repo/reaper-rhel-10-stable.repo \
+            -o /etc/yum.repos.d/reaper-rhel-10-stable.repo
+          dnf -y makecache --refresh
+          dnf repolist
+          grep -E '^gpgcheck=1$' /etc/yum.repos.d/reaper-rhel-10-stable.repo
+          grep -E '^repo_gpgcheck=1$' /etc/yum.repos.d/reaper-rhel-10-stable.repo
+
+      - name: Download RPM artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: nscde-rhel-10-${{ env.TARGET_SHA }}
+          path: artifacts
+
+      - name: Verify clean pre-install state
+        id: clean_state
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ! rpm -q NsCDE >/dev/null 2>&1
+          test ! -e /usr/share/xsessions/nscde.desktop
+          echo 'NsCDE is absent: clean installation target confirmed'
+
+      - name: Install generated binary RPMs with log capture
+        id: rpm_install
+        if: ${{ steps.clean_state.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mapfile -t packages < <(find artifacts -type f -name '*.rpm' ! -name '*.src.rpm' -print | LC_ALL=C sort)
+          test "${#packages[@]}" -gt 0
+          printf 'Installing:\n%s\n' "${packages[@]}"
+          set +e
+          dnf -y --setopt=optional_metadata_types=filelists install "${packages[@]}" \
+            2>&1 | tee "$RUNNER_TEMP/nscde-install.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          exit "$status"
+
+      - name: Verify installed RPM packages
+        id: rpm_verify
+        if: ${{ steps.rpm_install.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mapfile -t package_names < <(
+            find artifacts -type f -name '*.rpm' ! -name '*.src.rpm' \
+              -exec rpm -qp --qf '%{NAME}\n' '{}' ';' | LC_ALL=C sort -u
+          )
+          test "${#package_names[@]}" -gt 0
+          for package_name in "${package_names[@]}"; do
+            rpm -q "$package_name"
+            rpm -V "$package_name"
+          done
+          rpm -q NsCDE
+          dnf -y check
+
+      - name: Verify installed NsCDE tree and runtime linkage
+        id: runtime_verify
+        if: ${{ steps.rpm_verify.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          for program in /usr/bin/nscde /usr/bin/nscde_fvwmclnt; do
+            test -x "$program"
+            ls -l "$program"
+          done
+          test -f /usr/share/xsessions/nscde.desktop
+          test -d /usr/share/NsCDE
+          command -v ldd
+          elf_count=0
+          while IFS= read -r candidate; do
+            test -f "$candidate" || continue
+            file -b "$candidate" | grep -q '^ELF ' || continue
+            ((elf_count += 1))
+            dependencies="$(ldd "$candidate" 2>&1 || true)"
+            if grep -q '=> not found' <<<"$dependencies"; then
+              echo "ERROR: unresolved runtime dependency: $candidate" >&2
+              printf '%s\n' "$dependencies" >&2
+              exit 1
+            fi
+          done < <(rpm -ql NsCDE)
+          broken_links=0
+          while IFS= read -r candidate; do
+            if test -L "$candidate" && ! test -e "$candidate"; then
+              printf 'ERROR: broken link: %s -> %s\n' "$candidate" "$(readlink "$candidate")" >&2
+              broken_links=1
+            fi
+          done < <(rpm -ql NsCDE)
+          test "$broken_links" -eq 0
+          printf 'NsCDE ELF files checked: %d\n' "$elf_count"
+          rpm -ql NsCDE | LC_ALL=C sort
+
+      - name: Snapshot resolved NsCDE runtime providers
+        if: ${{ steps.rpm_install.outcome == 'success' }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          rpm -q --requires NsCDE | LC_ALL=C sort -u
+          while IFS= read -r requirement; do
+            case "$requirement" in rpmlib\(*) continue ;; esac
+            test -n "$requirement" || continue
+            printf '%s -> ' "$requirement"
+            rpm -q --whatprovides "$requirement" 2>/dev/null || echo '(provider query unavailable)'
+          done < <(rpm -q --requires NsCDE | LC_ALL=C sort -u)
+
+      - name: Collect installation stage summary
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          {
+            echo '## AlmaLinux 10 clean-install result'
+            echo
+            echo '| Stage | Outcome |'
+            echo '|---|---|'
+            printf '| Clean pre-install state | `%s` |\n' '${{ steps.clean_state.outcome }}'
+            printf '| RPM installation | `%s` |\n' '${{ steps.rpm_install.outcome }}'
+            printf '| RPM verification | `%s` |\n' '${{ steps.rpm_verify.outcome }}'
+            printf '| NsCDE tree/runtime verification | `%s` |\n' '${{ steps.runtime_verify.outcome }}'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Prepare installation diagnostic artifact bundle
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          bundle="$RUNNER_TEMP/install-diagnostics"
+          mkdir -p "$bundle"
+          test ! -f "$RUNNER_TEMP/nscde-install.log" || cp -a "$RUNNER_TEMP/nscde-install.log" "$bundle/"
+          {
+            cat /etc/os-release || true
+            echo '=== repositories ==='
+            dnf repolist || true
+            echo '=== installed NsCDE package ==='
+            rpm -qi NsCDE || true
+            echo '=== NsCDE files ==='
+            rpm -ql NsCDE || true
+            echo '=== NsCDE requirements ==='
+            rpm -q --requires NsCDE || true
+          } > "$bundle/runtime-environment.txt"
+
+      - name: Upload installation diagnostic artifact bundle
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: nscde-rhel-10-install-diagnostics-${{ github.run_id }}
+          path: ${{ runner.temp }}/install-diagnostics
+          if-no-files-found: warn
+          retention-days: 14
+          compression-level: 6
+
+      - name: Final installation diagnostic gate
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          clean='${{ steps.clean_state.outcome }}'
+          install='${{ steps.rpm_install.outcome }}'
+          verify='${{ steps.rpm_verify.outcome }}'
+          runtime='${{ steps.runtime_verify.outcome }}'
+          printf 'clean=%s install=%s verify=%s runtime=%s\n' "$clean" "$install" "$verify" "$runtime"
+          test "$clean" = success
+          test "$install" = success
+          test "$verify" = success
+          test "$runtime" = success
